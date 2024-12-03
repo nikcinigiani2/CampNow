@@ -23,4 +23,7 @@ public class User {
         //TODO: reservations
     }
 
+    public String getCf(){
+        return cf;
+    }
 }
