@@ -1,32 +1,33 @@
 package DAO;
 
-import java.sql.*;
+import Model.Club;
 
-import Model.User;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-
-public class UserDAO {
-    public User selectUserByEmail(String email) throws SQLException {
-        String query = "SELECT * FROM users WHERE email = ?";
+public class ClubDAO {
+    public Club selectClubByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1, email);
         ResultSet rs = ps.executeQuery();
-        User user = null;
+        Club club = null;
 
         if(rs.next()) {
-            user = new User(rs.getString("cf"),
+            club = new Club(rs.getString("id"),
                     rs.getString("name"),
-                    rs.getString("surname"),
+                    rs.getString("city"),
+                    rs.getString("address"),
                     rs.getInt("phoneNumber"),
-                    rs.getString("birthdate"),
                     email,
                     rs.getString("password"));
         }
-        return user;
+        return club;
     }
 
     public boolean checkCredentials(String email, String password) throws SQLException{
-        String query ="SELECT count(*) FROM users WHERE email = ? AND password = ?";
+        String query ="SELECT count(*) FROM clubs WHERE email = ? AND password = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1, email);
         ps.setString(2, password);
@@ -34,46 +35,45 @@ public class UserDAO {
 
         if(rs.next()){
             return rs.getInt(1)==1; //se la query ritorna 1, vuol dire che
-                                                // ha trovato la corrispondenza nel db
+            // ha trovato la corrispondenza nel db
         }
         return false;
     }
 
-    public void deleteUser(String cf) throws SQLException {
-        String query = "DELETE FROM users WHERE cf = ?";
+    public void deleteClub(String id) throws SQLException {
+        String query = "DELETE FROM clubs WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, cf);
+        ps.setString(1, id);
         ps.executeUpdate();
     }
 
-    public void updateUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
-        String query = "UPDATE users SET name = ?, surname = ?, phoneNumber = ?, birthdate = ?, email = ?, password = ? WHERE cf = ?";
+    public void updateClub(String id, String name, String city, String address, int phoneNumber, String email, String password) throws SQLException{
+        String query = "UPDATE clubs SET name = ?, city = ?, address = ?, phoneNumber = ?, email = ?, password = ? WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,name);
-        ps.setString(2,surname);
-        ps.setInt(3,phoneNumber);
-        ps.setString(4,birthdate);
+        ps.setString(2,city);
+        ps.setString(3,address);
+        ps.setInt(4,phoneNumber);
         ps.setString(5,email);
         ps.setString(6,password);
-        ps.setString(7,cf);
         ps.executeUpdate();
     }
 
-    public void addUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
-        String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public void addClub(String id, String name, String city, String address, int phoneNumber, String email, String password) throws SQLException{
+        String query = "INSERT INTO clubs VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1,cf);
+        ps.setString(1,id);
         ps.setString(2,name);
-        ps.setString(3,surname);
-        ps.setInt(4,phoneNumber);
-        ps.setString(5,birthdate);
+        ps.setString(3,city);
+        ps.setString(4,address);
+        ps.setInt(5,phoneNumber);
         ps.setString(6,email);
         ps.setString(7,password);
         ps.executeUpdate();
     }
 
     public ResultSet getPasswordByEmail(String email) throws SQLException{
-        String query = "SELECT password FROM users WHERE email = ?";
+        String query = "SELECT password FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,email);
         ResultSet rs = ps.executeQuery();
@@ -81,7 +81,7 @@ public class UserDAO {
     }
 
     public boolean emailAlreadyUsed(String email) throws SQLException {
-        String query="SELECT COUNT(*) FROM users WHERE email = ?";
+        String query="SELECT COUNT(*) FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,email);
         ResultSet rs = ps.executeQuery();

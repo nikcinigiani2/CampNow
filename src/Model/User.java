@@ -9,9 +9,9 @@ public class User {
     private String email;
     private String password;
 
-    // TODO: oggetto reservations
+    // TODO: arraylist oggetti reservations
 
-    public User (String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password){
+    public User (String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) {
         this.cf = cf;
         this.name = name;
         this.surname = surname;
@@ -20,10 +20,16 @@ public class User {
         this.email = email;
         this.password = password;
 
-        //TODO: reservations
+        //TODO: arraylist oggetti reservations
     }
 
     public String getCf(){
         return cf;
     }
+
+    public String getEmail(){
+        return email;
+    }
+
+
 }
