@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Club {
     private String id;
     private String name;
@@ -9,8 +11,9 @@ public class Club {
     private String email;
     private String password;
 
+    private ArrayList <Field> fields;
+
     //TODO: arraylist di reservations
-    //TODO: arraylist di fields
 
     public Club(String id, String name, String city, String address, int phoneNumber, String email, String password) {
         this.id = id;
@@ -20,9 +23,33 @@ public class Club {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        fields = new ArrayList<Field>();
+    }
 
-        //TODO: arraylist di reservations
-        //TODO: arraylist di fields
+    public void addField(Field field){
+        fields.add(field);
+    }
+
+    public void removeField(int fieldId){
+        for(Field f: fields){
+            if(f.getId() == fieldId){
+                fields.remove(f);
+            }
+        }
+    }
+
+    public int numberFields(){
+        return fields.size();
+    }
+
+    public boolean alreadyFieldLoaded(int fieldId){
+        boolean loaded = false;
+        for(Field f: fields){
+            if(f.getId() == fieldId) {
+                loaded = true;
+            }
+        }
+        return loaded;
     }
 
     public String getId(){

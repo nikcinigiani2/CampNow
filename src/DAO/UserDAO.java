@@ -47,29 +47,33 @@ public class UserDAO {
     }
 
     public void updateUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
-        String query = "UPDATE users SET name = ?, surname = ?, phoneNumber = ?, birthdate = ?, email = ?, password = ? WHERE cf = ?";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1,name);
-        ps.setString(2,surname);
-        ps.setInt(3,phoneNumber);
-        ps.setString(4,birthdate);
-        ps.setString(5,email);
-        ps.setString(6,password);
-        ps.setString(7,cf);
-        ps.executeUpdate();
+        if(!emailAlreadyUsed(email)){
+            String query = "UPDATE users SET name = ?, surname = ?, phoneNumber = ?, birthdate = ?, email = ?, password = ? WHERE cf = ?";
+            PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+            ps.setString(1,name);
+            ps.setString(2,surname);
+            ps.setInt(3,phoneNumber);
+            ps.setString(4,birthdate);
+            ps.setString(5,email);
+            ps.setString(6,password);
+            ps.setString(7,cf);
+            ps.executeUpdate();
+        }
     }
 
     public void addUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
-        String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1,cf);
-        ps.setString(2,name);
-        ps.setString(3,surname);
-        ps.setInt(4,phoneNumber);
-        ps.setString(5,birthdate);
-        ps.setString(6,email);
-        ps.setString(7,password);
-        ps.executeUpdate();
+        if(!emailAlreadyUsed(email)){
+            String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+            ps.setString(1,cf);
+            ps.setString(2,name);
+            ps.setString(3,surname);
+            ps.setInt(4,phoneNumber);
+            ps.setString(5,birthdate);
+            ps.setString(6,email);
+            ps.setString(7,password);
+            ps.executeUpdate();
+        }
     }
 
     public ResultSet getPasswordByEmail(String email) throws SQLException{
@@ -80,7 +84,7 @@ public class UserDAO {
         return rs;
     }
 
-    public boolean emailAlreadyUsed(String email) throws SQLException {
+    private boolean emailAlreadyUsed(String email) throws SQLException {
         String query="SELECT COUNT(*) FROM users WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,email);

@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClubDAO {
+    public ResultSet getAllClub() throws SQLException{
+        String query = "SELECT * FROM clubs";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        return ps.executeQuery();
+    }
+
     public Club selectClubByEmail(String email) throws SQLException {
         String query = "SELECT * FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -56,6 +62,7 @@ public class ClubDAO {
         ps.setInt(4,phoneNumber);
         ps.setString(5,email);
         ps.setString(6,password);
+        ps.setString(7, id);
         ps.executeUpdate();
     }
 
