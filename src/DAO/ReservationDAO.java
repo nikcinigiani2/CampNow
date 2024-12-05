@@ -26,7 +26,26 @@ public class ReservationDAO {
         }
     }
 
-    //TODO: deleteReservation, updateReservation,
+    public void deleteReservation(int id) throws SQLException {
+        String query = "delete from reservations where id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+    }
+
+    public void updateReservation(int id, String clubid, int fieldid, String date, String startrent, String endrent) throws SQLException{
+        if(checkDisponibility(fieldid, clubid, date, startrent, startrent)){
+            String query = "update reservations set date = ?, startrent = ?, endrent = ? where id = ?";
+            PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+            ps.setString(1, date);
+            ps.setString(2, startrent);
+            ps.setString(3, endrent);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+        }
+    }
+
+    //TODO:
     // selectReservationByID, selectReservationByUser, selectReservationByClub, selectReservationByField,
     // selectReservationByDate
 
@@ -42,7 +61,7 @@ public class ReservationDAO {
         if(rs1.next()){
             if(rs1.getInt(1) >= 1) {
                 String query2 = "select count(*) from reservations r where r.date = ? and r.fieldid = ? and r.clubid = ?" +
-                        "and (r.startrent <= ? and r.endrent >= ?)";
+                        "and (r.startrent < ? and r.endrent >0 ?)";
                 PreparedStatement ps2 = ManagerDAO.getConnection().prepareStatement(query2);
                 ps2.setString(1, date);
                 ps2.setInt(2, fieldid);
