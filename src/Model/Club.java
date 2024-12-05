@@ -12,8 +12,7 @@ public class Club {
     private String password;
 
     private ArrayList <Field> fields;
-
-    //TODO: arraylist di reservations
+    private ArrayList <Reservation> reservations;
 
     public Club(String id, String name, String city, String address, int phoneNumber, String email, String password) {
         this.id = id;
@@ -24,15 +23,42 @@ public class Club {
         this.email = email;
         this.password = password;
         fields = new ArrayList<Field>();
+        reservations = new ArrayList<Reservation>();
+    }
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeResevation(int reservationID){
+        for(Reservation r: reservations){
+            if(r.getId() == reservationID){
+                reservations.remove(r);
+            }
+        }
+    }
+
+    public int numberReservations(){
+        return reservations.size();
+    }
+
+    public boolean alreadyReservationLoaded(int reservationID){
+        boolean loaded = false;
+        for(Reservation r: reservations){
+            if(r.getId() == reservationID) {
+                loaded = true;
+            }
+        }
+        return loaded;
     }
 
     public void addField(Field field){
         fields.add(field);
     }
 
-    public void removeField(int fieldId){
+    public void removeField(int fieldID){
         for(Field f: fields){
-            if(f.getId() == fieldId){
+            if(f.getId() == fieldID){
                 fields.remove(f);
             }
         }
@@ -42,10 +68,10 @@ public class Club {
         return fields.size();
     }
 
-    public boolean alreadyFieldLoaded(int fieldId){
+    public boolean alreadyFieldLoaded(int fieldID){
         boolean loaded = false;
         for(Field f: fields){
-            if(f.getId() == fieldId) {
+            if(f.getId() == fieldID) {
                 loaded = true;
             }
         }

@@ -4,22 +4,21 @@ import java.sql.*;
 
 import Model.User;
 
-
 public class UserDAO {
-    public User selectUserByEmail(String email) throws SQLException {
-        String query = "SELECT * FROM users WHERE email = ?";
+    public User selectUserByCF(String cf) throws SQLException {
+        String query = "SELECT * FROM users WHERE cf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, email);
+        ps.setString(1, cf);
         ResultSet rs = ps.executeQuery();
         User user = null;
 
         if(rs.next()) {
-            user = new User(rs.getString("cf"),
+            user = new User(cf,
                     rs.getString("name"),
                     rs.getString("surname"),
                     rs.getInt("phoneNumber"),
                     rs.getString("birthdate"),
-                    email,
+                    rs.getString("email"),
                     rs.getString("password"));
         }
         return user;

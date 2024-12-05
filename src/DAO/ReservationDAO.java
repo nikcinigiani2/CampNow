@@ -1,5 +1,9 @@
 package DAO;
 
+
+import Model.Reservation;
+
+import javax.imageio.event.IIOReadProgressListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,10 +49,38 @@ public class ReservationDAO {
         }
     }
 
-    //TODO:
-    // selectReservationByID, selectReservationByUser, selectReservationByClub, selectReservationByField,
-    // selectReservationByDate
+    public Reservation selectReservationByID (int id) throws SQLException{
+        String query = "SELECT * FROM reservations WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        Reservation reservation = null;
 
+        if(rs.next()){
+            reservation = new Reservation(id,
+                    rs.getString("clubid"),
+                    rs.getInt("fieldid"),
+                    rs.getString("usercf"),
+                    rs.getString("date"),
+                    rs.getString("startrent"),
+                    rs.getString("endrent"));
+        }
+        return reservation;
+    }
+
+    // column = "userid", "clubid", "fieldid", "date" |  value = valore di quel preciso dato
+    // ES: rs = getReservationBy("fieldid", 2);
+    public ResultSet getReservationsBy(String column, Object value) throws SQLException {
+        String query = "select * from reservations where " + column + " = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+
+        if (value instanceof String) {
+            ps.setString(1, (String) value);
+        } else{
+            ps.setInt(1, (int) value);
+        }
+        return ps.executeQuery();
+    }
 
     public boolean checkDisponibility(int fieldid, String clubid, String date, String startrent, String endrent) throws SQLException{
         String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";

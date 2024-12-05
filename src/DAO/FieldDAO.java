@@ -1,5 +1,7 @@
 package DAO;
 
+import Model.Field;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,44 +54,51 @@ public class FieldDAO {
         return ps.executeQuery();
     }
 
-    public ResultSet getFieldById(int id, String clubid) throws SQLException {
+    public Field selectFieldById(int id, String clubid) throws SQLException {
         String query = "SELECT * FROM fields WHERE id = ? and clubid = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
         ps.setString(2, clubid);
-        return ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
+        Field field = null;
+
+        if(rs.next()) {
+            field = new Field(id, clubid,
+                    rs.getInt("number"),
+                    rs.getString("soil"),
+                    rs.getBoolean("lights"),
+                    rs.getBoolean("lockerroom"),
+                    rs.getInt("price"),
+                    rs.getString("starttime"),
+                    rs.getString("endtime"));
+        }
+        return field;
     }
 
-    public ResultSet getFieldsByClub(String clubid) throws SQLException{
-        String query = "SELECT * FROM fields WHERE clubid = ?";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, clubid);
-        return ps.executeQuery();
-    }
+    /*
+        column = "clubid", "number", "soil", "lights", "lockerroom", "price"
+        value = valori dei relativi campi
+     */
+    public ResultSet getFields(String column, Object value) throws SQLException {
+        String query;
 
-    public ResultSet getFieldByNumber(int number) throws SQLException {
-        String query = "SELECT * FROM fields WHERE number = ?";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setInt(1, number);
-        return ps.executeQuery();
-    }
+        if (!"price".equals(column)) {
+            query = "SELECT * FROM fields WHERE " + column + " = ?";
+        } else {
+            query = "SELECT * FROM fields ORDER BY price ASC";
+        }
 
-    public ResultSet getFieldBySoil(String soil) throws SQLException {
-        String query = "SELECT * FROM fields WHERE soil = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, soil);
-        return ps.executeQuery();
-    }
 
-    public ResultSet getFieldsWithLights()throws SQLException{
-        String query = "SELECT * FROM fields WHERE lights = true";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        return ps.executeQuery();
-    }
-
-    public ResultSet getFieldsWithLockerRoom()throws SQLException{
-        String query = "SELECT * FROM fields WHERE lockerroom = true";
-        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        if (!"price".equals(column)) {
+            if (value instanceof String) {
+                ps.setString(1, (String) value);
+            } else if (value instanceof Integer) {
+                ps.setInt(1, (Integer) value);
+            } else {
+                ps.setBoolean(1, (Boolean) value);
+            }
+        }
         return ps.executeQuery();
     }
 
