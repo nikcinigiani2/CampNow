@@ -1,62 +1,86 @@
-import javax.swing.*;
-import java.awt.*;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Create the title bar
+        Label titleLabel = new Label("CAMP NOW");
+        titleLabel.setStyle("-fx-font-weight: bold");
+        HBox titleBar = new HBox(titleLabel);
+        titleBar.setAlignment(Pos.CENTER);
+        titleBar.setPadding(new Insets(10));
+        titleBar.setStyle("-fx-background-color: lightgrey;");
+
+        // Create the log out section
+        Button logoutButton = new Button("Logout");
+        logoutButton.setPrefSize(70, 30);
+        logoutButton.setAlignment(Pos.CENTER);
+
+
+        // Create the user section
+        Button userButton = new Button("User");
+        logoutButton.setPrefSize(70, 30);
+        userButton.setAlignment(Pos.CENTER);
+// Create a spacer to push buttons to the sides
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+        // Create the navigation bar with logout on the left and user on the right
+        HBox navButtonSection = new HBox(logoutButton, spacer, userButton);
+        navButtonSection.setAlignment(Pos.CENTER_LEFT);
+        navButtonSection.setPadding(new Insets(10));
+        navButtonSection.setSpacing(10);
+
+        // Create the home section
+        Label homeLabel = new Label("HOME");
+        homeLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+        // Create the buttons
+        Button cercaCampiButton = new Button("Cerca Campi");
+        cercaCampiButton.setPrefWidth(200);
+        cercaCampiButton.setPrefHeight(40);
+        Button prenotazioniButton = new Button("Le mie prenotazioni");
+        prenotazioniButton.setPrefWidth(200);
+        prenotazioniButton.setPrefHeight(40);
+
+
+        VBox navLayout  = new VBox(titleBar, navButtonSection, homeLabel);
+        navLayout.setAlignment(Pos.CENTER);
+        navLayout.setSpacing(5);
+
+        // Create the main layout
+        VBox mainLayout = new VBox(cercaCampiButton, prenotazioniButton );
+        mainLayout.setAlignment(Pos.CENTER);
+        mainLayout.setSpacing(20);
+        //mainLayout.setPadding(new Insets(20));
+
+        // Set up the scene
+        BorderPane root = new BorderPane();
+        root.setTop(navLayout);  // Position titleBar at the top
+        root.setCenter(mainLayout);  // Main content in the center
+
+        Scene scene = new Scene(root, 800, 500);
+
+        // Configure the stage
+        primaryStage.setTitle("CampNow");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public static void main(String[] args) {
-        // Creazione del frame principale
-        JFrame frame = new JFrame("Login Screen");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 250);
-        frame.setLayout(new BorderLayout());
-
-        // Creazione del pannello centrale
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-
-        JLabel userLabel = new JLabel("Username:");
-        JTextField userField = new JTextField(15);
-        JLabel passLabel = new JLabel("Password:");
-        JPasswordField passField = new JPasswordField(15);
-        JButton loginButton = new JButton("Login");
-        JButton exitButton = new JButton("Exit");
-
-        // Posizionamento dei componenti nel pannello
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(userLabel, gbc);
-
-        gbc.gridx = 1;
-        panel.add(userField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(passLabel, gbc);
-
-        gbc.gridx = 1;
-        panel.add(passField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(loginButton, gbc);
-
-        gbc.gridy = 3;
-        panel.add(exitButton, gbc);
-
-        // Aggiunta del pannello al frame
-        frame.add(panel, BorderLayout.CENTER);
-
-        // Azione per il pulsante "Exit"
-        exitButton.addActionListener(e -> System.exit(0));
-
-        // Rendi visibile il frame
-        frame.setLocationRelativeTo(null); // Centra la finestra sullo schermo
-        frame.setVisible(true);
-
-
-
-
+        launch(args);
     }
 }
