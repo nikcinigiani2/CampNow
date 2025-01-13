@@ -26,18 +26,6 @@ public class Club {
         reservations = new ArrayList<Reservation>();
     }
 
-    public void addReservation(Reservation reservation){
-        reservations.add(reservation);
-    }
-
-    public void removeResevation(int reservationID){
-        for(Reservation r: reservations){
-            if(r.getId() == reservationID){
-                reservations.remove(r);
-            }
-        }
-    }
-
     public int numberReservations(){
         return reservations.size();
     }

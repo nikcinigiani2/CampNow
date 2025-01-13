@@ -1,5 +1,8 @@
 package Model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class User {
     private String cf;
     private String name;
@@ -9,7 +12,7 @@ public class User {
     private String email;
     private String password;
 
-    // TODO: arraylist oggetti reservations
+    private ArrayList <Reservation> reservations;
 
     public User (String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) {
         this.cf = cf;
@@ -19,8 +22,33 @@ public class User {
         this.birthdate = birthdate;
         this.email = email;
         this.password = password;
+        reservations = new ArrayList<Reservation>();
+    }
 
-        //TODO: arraylist oggetti reservations
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeResevation(int reservationID){
+        for(Reservation r: reservations){
+            if(r.getId() == reservationID){
+                reservations.remove(r);
+            }
+        }
+    }
+
+    public int numberReservations(){
+        return reservations.size();
+    }
+
+    public boolean alreadyReservationLoaded(int reservationID){
+        boolean loaded = false;
+        for(Reservation r: reservations){
+            if(r.getId() == reservationID) {
+                loaded = true;
+            }
+        }
+        return loaded;
     }
 
     public String getCf(){
