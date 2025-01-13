@@ -24,10 +24,10 @@ public class UserDAO {
         return user;
     }
 
-    public boolean checkCredentials(String email, String password) throws SQLException{
-        String query ="SELECT count(*) FROM users WHERE email = ? AND password = ?";
+    public boolean checkCredentials(String cf, String password) throws SQLException{
+        String query ="SELECT count(*) FROM users WHERE cf = ? AND password = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, email);
+        ps.setString(1, cf);
         ps.setString(2, password);
         ResultSet rs = ps.executeQuery();
 
@@ -83,7 +83,7 @@ public class UserDAO {
         return rs;
     }
 
-    private boolean emailAlreadyUsed(String email) throws SQLException {
+    public boolean emailAlreadyUsed(String email) throws SQLException {
         String query="SELECT COUNT(*) FROM users WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,email);

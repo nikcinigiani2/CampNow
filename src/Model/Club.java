@@ -26,6 +26,11 @@ public class Club {
         reservations = new ArrayList<Reservation>();
     }
 
+    public Club (){
+        fields = new ArrayList<Field>();
+        reservations = new ArrayList<Reservation>();
+    }
+
     public int numberReservations(){
         return reservations.size();
     }

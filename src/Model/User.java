@@ -25,6 +25,10 @@ public class User {
         reservations = new ArrayList<Reservation>();
     }
 
+    public User(){
+        reservations = new ArrayList<Reservation>();
+    }
+
     public void addReservation(Reservation reservation){
         reservations.add(reservation);
     }
