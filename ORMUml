@@ -1,0 +1,73 @@
+@startuml
+package ORM {
+    class ClubDAO {
+        - String databaseUrl
+        - String username
+        - String password
+        - Connection connection
+        + ClubDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class FieldDAO {
+        - String databaseUrl
+        - String username
+        - String password
+        - Connection connection
+        + FieldDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class ManagerDAO {
+        - String databaseUrl
+        - String username
+        - String password
+        - Connection connection
+        + ManagerDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class ReservationDAO {
+        - String databaseUrl
+        - String username
+        - String password
+        - Connection connection
+        + ReservationDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class UserDAO {
+        - String databaseUrl
+        - String username
+        - String password
+        - Connection connection
+        + UserDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+        ManagerDAO <.. ClubDAO
+        ManagerDAO <.. FieldDAO
+        ManagerDAO <.. ReservationDAO
+        ManagerDAO <.. UserDAO
+
+
+
+
+
+}
+@enduml
