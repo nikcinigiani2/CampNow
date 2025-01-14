@@ -35,4 +35,24 @@ public class ClubService {
 
     }
 
+    public Club getCurrentClub(){
+        return club;
+    }
+
+    public void register(String id, String name, String city, String address, int phoneNumber, String email, String psw){
+        try{
+            clubDAO.addClub(id, name, city, address, phoneNumber, email, psw);
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkEmailAlreadyUsed(String email) {
+        try {
+            return clubDAO.emailAlreadyUsed(email);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
