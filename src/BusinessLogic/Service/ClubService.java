@@ -1,5 +1,6 @@
 package BusinessLogic.Service;
 
+import Model.Reservation;
 import ORM.ClubDAO;
 import Model.Club;
 
@@ -10,9 +11,13 @@ public class ClubService {
     ClubDAO clubDAO;
     Club club;
 
-    public ClubService (ClubDAO clubDAO){
-        this.clubDAO = clubDAO;
+    FieldService fieldService;
+    ReservationService reservationService;
 
+    public ClubService (ClubDAO clubDAO, FieldService fieldService, ReservationService reservationService){
+        this.clubDAO = clubDAO;
+        this.fieldService = fieldService;
+        this.reservationService = reservationService;
         club = new Club();
     }
 
@@ -29,10 +34,8 @@ public class ClubService {
     public void login(String email) throws SQLException {
         club = clubDAO.selectClubByEmail(email);
 
-        //TODO caricare eventuali servizi a lui collegati
-        //es: campi fieldService.setClub(club);
-        //          fieldService.getAllFields();
-
+        fieldService.setClub(club);
+        reservationService.setClub(club);
     }
 
     public Club getCurrentClub(){

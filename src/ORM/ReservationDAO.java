@@ -29,6 +29,25 @@ public class ReservationDAO {
         }
     }
 
+    public int getMostRecentReservationId(String usercf) throws SQLException {
+        String query = "SELECT id FROM reservations WHERE usercf = ? ORDER BY datetime DESC LIMIT 1";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1, usercf);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("id");
+    }
+
+    public String getDateTimeReservation(int id) throws SQLException{
+        String query = "SELECT datetime FROM reservations WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("datetime");
+    }
+
+
     public void deleteReservation(int id) throws SQLException {
         String query = "delete from reservations where id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -36,35 +55,23 @@ public class ReservationDAO {
         ps.executeUpdate();
     }
 
-    public void updateReservation(int id, String clubid, int fieldid, String date, String startrent, String endrent) throws SQLException{
-        if(checkDisponibility(fieldid, clubid, date, startrent, startrent)){
+    public void updateReservation(int id, String clubid, int fieldid, String date, String startRent, String endRent) throws SQLException{
+        if(checkDisponibility(fieldid, clubid, date, startRent, endRent)){
             String query = "update reservations set date = ?, startrent = ?, endrent = ? where id = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setString(1, date);
-            ps.setString(2, startrent);
-            ps.setString(3, endrent);
+            ps.setString(2, startRent);
+            ps.setString(3, endRent);
             ps.setInt(4, id);
             ps.executeUpdate();
         }
     }
 
-    public Reservation selectReservationByID (int id) throws SQLException{
+    public ResultSet getReservationByID (int id) throws SQLException{
         String query = "SELECT * FROM reservations WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        Reservation reservation = null;
-
-        if(rs.next()){
-            reservation = new Reservation(id,
-                    rs.getString("clubid"),
-                    rs.getInt("fieldid"),
-                    rs.getString("usercf"),
-                    rs.getString("date"),
-                    rs.getString("startrent"),
-                    rs.getString("endrent"));
-        }
-        return reservation;
+        return ps.executeQuery();
     }
 
     // column = "userid", "clubid", "fieldid", "date" |  value = valore di quel preciso dato
@@ -80,6 +87,7 @@ public class ReservationDAO {
         }
         return ps.executeQuery();
     }
+
 
     public boolean checkDisponibility(int fieldid, String clubid, String date, String startrent, String endrent) throws SQLException{
         String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";

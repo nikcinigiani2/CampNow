@@ -9,11 +9,11 @@ public class UserService {
     UserDAO userDAO;
     User user;
 
-    //TODO implementare i servizi relativi (ReservationService)
+    ReservationService reservationService;
 
-    public UserService(UserDAO userDAO){
+    public UserService(UserDAO userDAO, ReservationService reservationService){
         this.userDAO = userDAO;
-
+        this.reservationService = reservationService;
         user = new User();
     }
 
@@ -29,20 +29,7 @@ public class UserService {
 
     public void login(String cf) throws SQLException {
         user = userDAO.selectUserByCF(cf);
-
-        //TODO caricare eventuali servizi a lui collegati
-        //es: collectionService.setUser(user);
-        //        collectionService.getAllCollection();
-        //
-        //        wishlistService.setUser(user);
-        //        wishlistService.getAllWishlist();
-        //
-        //        matchService.setUser(user);
-        //        matchService.getMatches();
-        //
-        //        playerService.setUser(user);
-        //        playerService.getAllPlayers();
-
+        reservationService.setUser(user);
     }
 
 

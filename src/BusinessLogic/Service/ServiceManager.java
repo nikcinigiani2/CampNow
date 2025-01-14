@@ -4,8 +4,6 @@ import ORM.*;
 import Model.User;
 import Model.Club;
 
-import java.security.Provider;
-
 public class ServiceManager {
     private static ServiceManager instance;
 
@@ -14,10 +12,10 @@ public class ServiceManager {
     private UserService userService;
     private User user;
 
-
     private ServiceManager(){
         UserDAO userDAO = new UserDAO();
-        userService = new UserService(userDAO);
+        //TODO aggiungere ResercationService, ClubService e FieldService
+        // userService = new UserService(userDAO, reservationService);
     }
 
     public static ServiceManager getInstance(){

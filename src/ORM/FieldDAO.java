@@ -54,25 +54,14 @@ public class FieldDAO {
         return ps.executeQuery();
     }
 
-    public Field selectFieldById(int id, String clubid) throws SQLException {
+    public ResultSet getFieldById(int id, String clubid) throws SQLException {
         String query = "SELECT * FROM fields WHERE id = ? and clubid = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
         ps.setString(2, clubid);
         ResultSet rs = ps.executeQuery();
-        Field field = null;
 
-        if(rs.next()) {
-            field = new Field(id, clubid,
-                    rs.getInt("number"),
-                    rs.getString("soil"),
-                    rs.getBoolean("lights"),
-                    rs.getBoolean("lockerroom"),
-                    rs.getInt("price"),
-                    rs.getString("starttime"),
-                    rs.getString("endtime"));
-        }
-        return field;
+        return ps.executeQuery();
     }
 
     /*
@@ -81,7 +70,6 @@ public class FieldDAO {
      */
     public ResultSet getFields(String column, Object value) throws SQLException {
         String query;
-
         if (!"price".equals(column)) {
             query = "SELECT * FROM fields WHERE " + column + " = ?";
         } else {

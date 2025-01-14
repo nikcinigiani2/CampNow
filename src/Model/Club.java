@@ -35,6 +35,18 @@ public class Club {
         return reservations.size();
     }
 
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(int reservationID){
+        for(Reservation r: reservations){
+            if(r.getId() == reservationID){
+                reservations.remove(r);
+            }
+        }
+    }
+
     public boolean alreadyReservationLoaded(int reservationID){
         boolean loaded = false;
         for(Reservation r: reservations){
