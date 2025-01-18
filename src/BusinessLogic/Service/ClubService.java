@@ -57,5 +57,4 @@ public class ClubService {
             throw new RuntimeException(e);
         }
     }
-
 }

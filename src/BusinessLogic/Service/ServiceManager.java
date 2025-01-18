@@ -1,21 +1,24 @@
 package BusinessLogic.Service;
 
 import ORM.*;
-import Model.User;
-import Model.Club;
 
 public class ServiceManager {
     private static ServiceManager instance;
-
     private ClubService clubService;
-    private Club club;
     private UserService userService;
-    private User user;
+    private FieldService fieldService;
+    private ReservationService reservationService;
 
     private ServiceManager(){
         UserDAO userDAO = new UserDAO();
-        //TODO aggiungere ResercationService, ClubService e FieldService
-        // userService = new UserService(userDAO, reservationService);
+        ClubDAO clubDAO = new ClubDAO();
+        FieldDAO fieldDAO = new FieldDAO();
+        ReservationDAO reservationDAO = new ReservationDAO();
+
+        reservationService = new ReservationService(reservationDAO);
+        fieldService = new FieldService(fieldDAO);
+        userService = new UserService(userDAO, reservationService);
+        clubService = new ClubService(clubDAO, fieldService, reservationService);
     }
 
     public static ServiceManager getInstance(){
@@ -26,5 +29,17 @@ public class ServiceManager {
 
     public UserService getUserService(){
         return userService;
+    }
+
+    public ClubService getClubService() {
+        return clubService;
+    }
+
+    public ReservationService getReservationService() {
+        return reservationService;
+    }
+
+    public FieldService getFieldService() {
+        return fieldService;
     }
 }
