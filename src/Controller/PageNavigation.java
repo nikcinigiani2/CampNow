@@ -4,8 +4,6 @@ import View.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class PageNavigation {
     static PageNavigation istance;
@@ -25,147 +23,94 @@ public class PageNavigation {
         }
         return istance;
     }
-    public void navigateToRegister(){
+
+    public void navigateToLoginAs(){
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
+        LoginAs loginAs= new LoginAs();
+        loginAs.setSize(frameSize);
+        loginAs.setLocation(frameLocation);
 
-
+        currentFrame = loginAs;
     }
 
-    /*
-    public void navigateToHome(){
+    public void navigateToClubLogin(){
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        Home home = new Home();
+        LoginClub lc = new LoginClub();
+        lc.setSize(frameSize);
+        lc.setLocation(frameLocation);
+
+        currentFrame = lc;
+    }
+
+    public void navigateToClubRegister(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        RegisterClub rc = new RegisterClub();
+        rc.setSize(frameSize);
+        rc.setLocation(frameLocation);
+
+        currentFrame = rc;
+    }
+
+    public void navigateToUserLogin(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        LoginUser lu = new LoginUser();
+        lu.setSize(frameSize);
+        lu.setLocation(frameLocation);
+
+        currentFrame = lu;
+    }
+
+    public void navigateToUserRegister(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        RegisterUser ru = new RegisterUser();
+        ru.setSize(frameSize);
+        ru.setLocation(frameLocation);
+
+        currentFrame = ru;
+    }
+
+
+    public void navigateToUserHome(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        HomeUser home = new HomeUser();
         home.setSize(frameSize);
         home.setLocation(frameLocation);
         currentFrame = home;
     }
 
-    public void navigateToLogin(){
+    public void navigateToClubHome(){
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        Login login = new Login();
-        login.setSize(frameSize);
-        login.setLocation(frameLocation);
-        currentFrame = login;
+        HomeClub home = new HomeClub();
+        home.setSize(frameSize);
+        home.setLocation(frameLocation);
+        currentFrame = home;
     }
-
-    public void navigateToRegister(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        Register register = new Register();
-        register.setSize(frameSize);
-        register.setLocation(frameLocation);
-        currentFrame = register;
-    }
-
-    public void navigateToCollection(boolean addMatch){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        CollectionView collectionView = new CollectionView(addMatch);
-        collectionView.setSize(frameSize);
-        collectionView.setLocation(frameLocation);
-        currentFrame = collectionView;
-    }
-
-    public void navigateToWishlist(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        WishlistView wishlistView = new WishlistView();
-        wishlistView.setSize(frameSize);
-        wishlistView.setLocation(frameLocation);
-        currentFrame = wishlistView;
-    }
-
-    public void navigateToPlayers(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        PlayersView playersView = new PlayersView();
-        playersView.setSize(frameSize);
-        playersView.setLocation(frameLocation);
-        currentFrame = playersView;
-    }
-
-    public void navigateToMatch(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        MatchView matchView = new MatchView();
-        matchView.setSize(frameSize);
-        matchView.setLocation(frameLocation);
-        currentFrame = matchView;
-    }
-
-    public void navigateToBoardgame(ArrayList<Boardgame> showingBoardgame, boolean collection) {
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        BoardgameView boardgameView = new BoardgameView(showingBoardgame, collection);
-        boardgameView.setSize(frameSize);
-        boardgameView.setLocation(frameLocation);
-        currentFrame = boardgameView;
-    }
-
-    public void navigateToAddPlayerView(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        AddPlayerView addPlayerView = new AddPlayerView();
-        addPlayerView.setSize(frameSize);
-        addPlayerView.setLocation(frameLocation);
-        currentFrame = addPlayerView;
-    }
-
-    public void navigateToAddMatchView(){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        AddMatchView addMatchView = new AddMatchView();
-        addMatchView.setSize(frameSize);
-        addMatchView.setLocation(frameLocation);
-
-    }
-    public void navigateToMatchDetailsView(int matchId){
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        MatchDetailsView matchDetailsView = new MatchDetailsView(matchId);
-        matchDetailsView.setSize(frameSize);
-        matchDetailsView.setLocation(frameLocation);
-        currentFrame = matchDetailsView;
-    }
-
-     */
 }

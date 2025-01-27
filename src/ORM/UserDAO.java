@@ -60,7 +60,7 @@ public class UserDAO {
         }
     }
 
-    public void addUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
+    public void addUser(String cf, String name, String surname, int phoneNumber, Date birthdate, String email, String password) throws SQLException{
         if(!emailAlreadyUsed(email)){
             String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -68,7 +68,7 @@ public class UserDAO {
             ps.setString(2,name);
             ps.setString(3,surname);
             ps.setInt(4,phoneNumber);
-            ps.setString(5,birthdate);
+            ps.setDate(5,birthdate);
             ps.setString(6,email);
             ps.setString(7,password);
             ps.executeUpdate();

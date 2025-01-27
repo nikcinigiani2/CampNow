@@ -3,6 +3,7 @@ package BusinessLogic.Service;
 import ORM.UserDAO;
 import Model.User;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class UserService {
@@ -37,7 +38,7 @@ public class UserService {
         return user;
     }
 
-    public void register (String cf, String name, String surname, int phoneNumber, String birthdate, String email, String psw){
+    public void register (String cf, String name, String surname, int phoneNumber, Date birthdate, String email, String psw){
         try{
             userDAO.addUser(cf, name, surname, phoneNumber, birthdate, email, psw);
         } catch(SQLException e){

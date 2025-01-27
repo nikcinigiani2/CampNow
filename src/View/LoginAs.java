@@ -1,83 +1,105 @@
 package View;
 
+import Controller.PageNavigation;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class LoginAs extends JFrame {
+public class LoginAs extends StandardView {
 
-    //TODO finire...
     public LoginAs(){
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
         setVisible(true);
     }
-    private void setupWindow() {
+    @Override
+    protected void setupWindow() {
         setTitle("Login As");
-        setSize(500, 400);
+        setSize(900, 500);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-
-    private JPanel createMainPanel(){
+    @Override
+    protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("CAMPNOW", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        add(titleLabel, BorderLayout.NORTH);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        separator.setPreferredSize(new Dimension(10, 0));
-        add(separator, BorderLayout.CENTER);
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(1, 2)); // 2 colonne, 1 riga
-        add(centerPanel, BorderLayout.CENTER);
-        centerPanel.setBorder(new LineBorder(Color.BLACK, 2));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.5;
+        gbc.weighty = 1.0;
 
         JPanel clubPanel = createClubPanel();
+        gbc.gridx = 0;
+        centerPanel.add(clubPanel, gbc);
 
-        centerPanel.add(clubPanel);
+        // Add vertical separator
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setBackground(Color.BLACK);
+        gbc.gridx = 1;
+        gbc.weightx = 0.0;
+        centerPanel.add(separator, gbc);
 
         JPanel userPanel = createUserPanel();
-
-        centerPanel.add(userPanel);
-
-        mainPanel.add(centerPanel);
+        gbc.gridx = 2;
+        gbc.weightx = 0.5;
+        centerPanel.add(userPanel, gbc);
 
         return mainPanel;
     }
 
     private JPanel createClubPanel() {
-
+        PageNavigation pageNavigationController = PageNavigation.getInstance(this);
         JPanel clubPanel = new JPanel();
         clubPanel.setLayout(new BoxLayout(clubPanel, BoxLayout.Y_AXIS));
         JLabel clubLabel = new JLabel("CLUB", JLabel.CENTER);
-        JButton clubLoginButton = new JButton("Login");
-        JButton clubRegisterButton = new JButton("Register");
+        ButtonGroup buttonGroup = new ButtonGroup();
+        JToggleButton clubLoginButton = createButton("Login", buttonGroup, pageNavigationController::navigateToClubLogin);
+        JToggleButton clubRegisterButton = createButton("Register", buttonGroup, pageNavigationController::navigateToClubRegister );
 
-        clubPanel.setBorder(new LineBorder(Color.BLACK, 2));
-        clubPanel.add(clubLabel, BorderLayout.CENTER);
-        clubPanel.add(clubLoginButton, BorderLayout.CENTER);
-        clubPanel.add(clubRegisterButton, BorderLayout.CENTER);
+        clubLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clubLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clubRegisterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        clubPanel.add(Box.createVerticalGlue());
+        clubPanel.add(clubLabel);
+        clubPanel.add(Box.createVerticalStrut(10));
+        clubPanel.add(clubLoginButton);
+        clubPanel.add(Box.createVerticalStrut(10));
+        clubPanel.add(clubRegisterButton);
+        clubPanel.add(Box.createVerticalGlue());
 
         return clubPanel;
     }
 
     private JPanel createUserPanel() {
+        PageNavigation pageNavigationController = PageNavigation.getInstance(this);
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
         JLabel userLabel = new JLabel("USER", JLabel.CENTER);
-        JButton userLoginButton = new JButton("Login");
-        JButton userRegisterButton = new JButton("Register");
+        ButtonGroup buttonGroup = new ButtonGroup();
+        JToggleButton userLoginButton = createButton("Login", buttonGroup, pageNavigationController::navigateToUserLogin );
+        JToggleButton userRegisterButton = createButton("Register", buttonGroup, pageNavigationController::navigateToUserRegister);
 
-        userPanel.setBorder(new LineBorder(Color.BLACK, 2));
-        userPanel.add(userLabel, BorderLayout.CENTER);
-        userPanel.add(userLoginButton, BorderLayout.CENTER);
-        userPanel.add(userRegisterButton, BorderLayout.CENTER);
+        userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        userLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        userRegisterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        userPanel.add(Box.createVerticalGlue());
+        userPanel.add(userLabel);
+        userPanel.add(Box.createVerticalStrut(10));
+        userPanel.add(userLoginButton);
+        userPanel.add(Box.createVerticalStrut(10));
+        userPanel.add(userRegisterButton);
+        userPanel.add(Box.createVerticalGlue());
 
         return userPanel;
     }

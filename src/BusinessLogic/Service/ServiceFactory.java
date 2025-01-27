@@ -16,7 +16,7 @@ public class ServiceFactory {
         return instance;
     }
 
-    public Object getService(int service) throws IllegalAccessException {
+    public Object getService(int service){
         switch (service){
             case FIELD_SERVICE:
                 return ServiceManager.getInstance().getFieldService();
@@ -27,9 +27,7 @@ public class ServiceFactory {
             case USER_SERVICE:
                 return ServiceManager.getInstance().getUserService();
             default:
-                throw new IllegalAccessException("Invalid Service");
+                throw new IllegalArgumentException("Invalid service");
         }
     }
-
-
 }
