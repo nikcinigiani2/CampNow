@@ -192,15 +192,17 @@ public class RegisterClub extends StandardView {
             // Verifica se i campi obbligatori sono compilati
             if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberText.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                // Prova a registrare l'utente
+                if (Engine.getInstance().registerClub(id, name, city, address, phoneNumber, email, password)) {
+                    JOptionPane.showMessageDialog(this, "Club registered successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    pageNavigationController.navigateToClubLogin();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Club already exists", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
 
-            // Prova a registrare l'utente
-            if (Engine.getInstance().registerClub(id, name, city, address, phoneNumber, email, password)) {
-                JOptionPane.showMessageDialog(this, "Club registered successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                pageNavigationController.navigateToClubLogin();
-            } else {
-                JOptionPane.showMessageDialog(this, "Club already exists", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+
         });
 
         signUpButton.setSelected(false);

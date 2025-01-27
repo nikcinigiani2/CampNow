@@ -205,14 +205,16 @@ public class RegisterUser extends StandardView {
             if (cf.isEmpty() || name.isEmpty() || surname.isEmpty() || phoneNumberText.isEmpty() || birthdateText.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            // Prova a registrare l'utente
-            if (Engine.getInstance().registerUser(cf, name, surname, phoneNumber, birthdate, email, password)) {
-                JOptionPane.showMessageDialog(this, "User registered successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                pageNavigationController.navigateToUserLogin();
-            } else {
-                JOptionPane.showMessageDialog(this, "User already exists", "Error", JOptionPane.ERROR_MESSAGE);
+            else{
+                if (Engine.getInstance().registerUser(cf, name, surname, phoneNumber, birthdate, email, password)) {
+                    JOptionPane.showMessageDialog(this, "User registered successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    pageNavigationController.navigateToUserLogin();
+                } else {
+                    JOptionPane.showMessageDialog(this, "User already exists", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
+
+
         });
 
         signUpButton.setSelected(false);
