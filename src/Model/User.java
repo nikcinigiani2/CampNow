@@ -59,6 +59,10 @@ public class User {
         return cf;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public String getEmail(){
         return email;
     }

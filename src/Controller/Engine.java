@@ -20,7 +20,7 @@ public class Engine {
     public User getUser(){
         return user;
     }
-    private Club getClub(){
+    public Club getClub(){
         return club;
     }
 
@@ -62,7 +62,9 @@ public class Engine {
         return registered;
     }
 
-
+    public void userLogout() {
+        user=null;
+    }
 
     /*
     *
