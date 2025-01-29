@@ -30,4 +30,8 @@ public class Field {
     public String getClubid(){
         return clubid;
     }
+
+    public Object getNumber() {
+        return number;
+    }
 }

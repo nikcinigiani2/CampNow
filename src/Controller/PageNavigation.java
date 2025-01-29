@@ -17,27 +17,27 @@ public class PageNavigation {
         this.frameLocation = currentFrame.getLocation();
     }
 
-    public static PageNavigation getInstance(JFrame currentFrame){
-        if(istance==null){
-            istance =new PageNavigation(currentFrame);
+    public static PageNavigation getInstance(JFrame currentFrame) {
+        if (istance == null) {
+            istance = new PageNavigation(currentFrame);
         }
         return istance;
     }
 
-    public void navigateToLoginAs(){
+    public void navigateToLoginAs() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        LoginAs loginAs= new LoginAs();
+        LoginAs loginAs = new LoginAs();
         loginAs.setSize(frameSize);
         loginAs.setLocation(frameLocation);
 
         currentFrame = loginAs;
     }
 
-    public void navigateToClubLogin(){
+    public void navigateToClubLogin() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -50,7 +50,7 @@ public class PageNavigation {
         currentFrame = lc;
     }
 
-    public void navigateToClubRegister(){
+    public void navigateToClubRegister() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -63,7 +63,7 @@ public class PageNavigation {
         currentFrame = rc;
     }
 
-    public void navigateToUserLogin(){
+    public void navigateToUserLogin() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -76,7 +76,7 @@ public class PageNavigation {
         currentFrame = lu;
     }
 
-    public void navigateToUserRegister(){
+    public void navigateToUserRegister() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -90,7 +90,7 @@ public class PageNavigation {
     }
 
 
-    public void navigateToUserHome(){
+    public void navigateToUserHome() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -102,7 +102,7 @@ public class PageNavigation {
         currentFrame = home;
     }
 
-    public void navigateToClubHome(){
+    public void navigateToClubHome() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
@@ -112,5 +112,55 @@ public class PageNavigation {
         home.setSize(frameSize);
         home.setLocation(frameLocation);
         currentFrame = home;
+    }
+
+    public void navigateToFieldsTable() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        FieldsTable ft = new FieldsTable();
+        ft.setSize(frameSize);
+        ft.setLocation(frameLocation);
+        currentFrame = ft;
+    }
+
+    /*
+    public void navigateToFieldDetails() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        FieldDetails fd = new FieldDetails();
+        fd.setSize(frameSize);
+        fd.setLocation(frameLocation);
+        currentFrame = fd;
+    }
+
+    public void navigateToFieldEdit() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        FieldEdit fe = new FieldEdit();
+        fe.setSize(frameSize);
+        fe.setLocation(frameLocation);
+        currentFrame = fe;
+
+    }
+    */
+    public void navigateToAddField() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+/*
+        AddField af = new AddField();
+        af.setSize(frameSize);
+        af.setLocation(frameLocation);
+        currentFrame = af;*/
     }
 }

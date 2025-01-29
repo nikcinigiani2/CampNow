@@ -90,4 +90,16 @@ public class Club {
     public String getName(){
         return name;
     }
+
+    public  ArrayList<Field> getFields(){
+        return fields;
+    }
+
+    public Object getAddress() {
+        return address;
+    }
+
+    public Object getCity() {
+        return city;
+    }
 }
