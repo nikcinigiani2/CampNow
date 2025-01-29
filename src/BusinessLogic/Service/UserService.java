@@ -30,7 +30,9 @@ public class UserService {
 
     public void login(String cf) throws SQLException {
         user = userDAO.selectUserByCF(cf);
+
         reservationService.setUser(user);
+        reservationService.getAllReservation();
     }
 
 

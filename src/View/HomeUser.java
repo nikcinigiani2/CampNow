@@ -71,8 +71,8 @@ public class HomeUser extends StandardView{
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         ButtonGroup buttonGroup = new ButtonGroup();
         //TODO cambia il navigateTo..
-        JToggleButton newReservationButton = createButton("Nuova Prenotazione", buttonGroup, pageNavigationController::navigateToClubLogin);
-        JToggleButton reservationButton = createButton("Prenotazioni", buttonGroup, pageNavigationController::navigateToClubRegister );
+        JToggleButton newReservationButton = createButton("Nuova Prenotazione", buttonGroup, pageNavigationController::navigateToReservationsTable );
+        JToggleButton reservationButton = createButton("Prenotazioni", buttonGroup, pageNavigationController::navigateToReservationsTable );
 
         newReservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         reservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -3,17 +3,19 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Field;
+import Model.Reservation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FieldsTable extends StandardView {
+public class ReservationsTable extends StandardView {
     private JTable table;
     private JScrollPane scrollPane;
 
-    public FieldsTable() {
+    public ReservationsTable() {
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
@@ -32,7 +34,7 @@ public class FieldsTable extends StandardView {
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("I MIEI CAMPI", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("LE MIE PRENOTAZIONI", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
@@ -49,22 +51,25 @@ public class FieldsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Number", "Address", "City"};
+        String[] columnNames = {"ID", "Club", "Campo", "Data", "Ora di inizio", "Ora di fine", "Data/Ora"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
-        List<Field> fields = Engine.getInstance().getClub().getFields();
-        for (Field field : fields) {
+        ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
+        for (Reservation reservation : reservations) {
             Object[] rowData = {
-                    field.getId(),
-                    field.getNumber(),
-                    Engine.getInstance().getClub().getAddress(),
-                    Engine.getInstance().getClub().getCity()
+                    reservation.getId(),
+                    Engine.getInstance().getNameById(reservation.getClubid()),
+                    reservation.getFieldId(),
+                    reservation.getDate(),
+                    reservation.getStartrent(),
+                    reservation.getEndrent(),
+                    reservation.getDatetime()
             };
             tableModel.addRow(rowData);
         }
 
         table = new JTable(tableModel);
-        scrollPane = new JScrollPane(table);
+        table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         return tablePanel;
@@ -72,24 +77,16 @@ public class FieldsTable extends StandardView {
 
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
-
-        JButton addButton = new JButton("Aggiungi un campo");
         PageNavigation pageNavigationController = PageNavigation.getInstance(this);
-        addButton.addActionListener(e -> {
-            pageNavigationController.navigateToAddField();
-        });
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e ->{
-            pageNavigationController.navigateToClubHome();
+            pageNavigationController.navigateToUserHome();
         });
 
-        addButton.setFocusable(false);
         backButton.setFocusable(false);
 
         buttonPanel.add(backButton);
-        buttonPanel.add(addButton);
-
 
         return buttonPanel;
     }

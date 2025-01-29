@@ -25,4 +25,31 @@ public class Reservation {
     public int getId(){
         return id;
     }
+
+    public String getClubid() {
+        return clubid;
+    }
+
+    public int getFieldId(){
+        return fieldid;
+    }
+    public String getUsercf() {
+        return usercf;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getStartrent() {
+        return startrent;
+    }
+
+    public String getEndrent() {
+        return endrent;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
 }

@@ -79,12 +79,23 @@ public class ClubDAO {
         ps.executeUpdate();
     }
 
-    public ResultSet getPasswordByEmail(String email) throws SQLException{
+    public String getNamedById(String id) throws SQLException{
+        String query = "SELECT name FROM clubs WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("name");
+        }
+        return "null";
+    }
+
+    public String getPasswordByEmail(String email) throws SQLException{
         String query = "SELECT password FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,email);
         ResultSet rs = ps.executeQuery();
-        return rs;
+        return rs.getString(1);
     }
 
     public boolean emailAlreadyUsed(String email) throws SQLException {

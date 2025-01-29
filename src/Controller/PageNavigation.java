@@ -126,6 +126,18 @@ public class PageNavigation {
         currentFrame = ft;
     }
 
+    public void navigateToReservationsTable() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        ReservationsTable rt = new ReservationsTable();
+        rt.setSize(frameSize);
+        rt.setLocation(frameLocation);
+        currentFrame = rt;
+    }
+
     /*
     public void navigateToFieldDetails() {
         frameSize = currentFrame.getSize();
@@ -163,4 +175,5 @@ public class PageNavigation {
         af.setLocation(frameLocation);
         currentFrame = af;*/
     }
+
 }

@@ -8,9 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ReservationDAO {
-    public ResultSet getAllReservations() throws SQLException{
-        String query = "SELECT * FROM reservations";
+
+    public ResultSet getAllReservations(String cf) throws SQLException{
+        String query = "SELECT * FROM reservations WHERE usercf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1, cf);
         return ps.executeQuery();
     }
 
@@ -66,6 +68,7 @@ public class ReservationDAO {
             ps.executeUpdate();
         }
     }
+
 
     public ResultSet getReservationByID (int id) throws SQLException{
         String query = "SELECT * FROM reservations WHERE id = ?";

@@ -7,6 +7,7 @@ import Model.Reservation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class ReservationService {
@@ -23,7 +24,24 @@ public class ReservationService {
 
     public ResultSet getAllReservation(){
         try{
-            return reservationDAO.getAllReservations();
+            ResultSet rs = reservationDAO.getAllReservations(user.getCf());
+            ArrayList<Reservation> reservations = new ArrayList<>();
+            if(rs!= null){
+                while (rs.next()) {
+                    int id = rs.getInt(("id"));
+                    String clubid = rs.getString("clubid");
+                    int fieldid = rs.getInt("fieldid");
+                    String usercf = rs.getString("usercf");
+                    String date = rs.getString("date");
+                    String startRent = rs.getString("startRent");
+                    String endRent = rs.getString("endRent");
+                    Reservation reservation = new Reservation(id, clubid, fieldid, usercf,date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
+                    reservations.add(reservation);
+                }
+
+                user.loadReservations(reservations);
+            }
+            return rs;
         }catch(SQLException e){
             throw new RuntimeException(e);
         }

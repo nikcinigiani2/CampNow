@@ -108,10 +108,14 @@ public class Engine {
         return registered;
     }
 
+    public String getNameById(String id){
+        ClubService cs = (ClubService) sf.getService(sf.CLUB_SERVICE);
+        return cs.getNameById(id);
+    }
+
 
 
     // -------------------------------------
-
 
 
 

@@ -29,6 +29,10 @@ public class User {
         reservations = new ArrayList<Reservation>();
     }
 
+    public void loadReservations(ArrayList<Reservation> reservations){
+        this.reservations = reservations;
+    }
+
     public void addReservation(Reservation reservation){
         reservations.add(reservation);
     }
@@ -65,6 +69,10 @@ public class User {
 
     public String getEmail(){
         return email;
+    }
+
+    public ArrayList getReservations(){
+        return reservations;
     }
 
 
