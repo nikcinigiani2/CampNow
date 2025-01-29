@@ -74,14 +74,22 @@ public class FieldsTable extends StandardView {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
 
         JButton addButton = new JButton("Aggiungi un campo");
+        PageNavigation pageNavigationController = PageNavigation.getInstance(this);
         addButton.addActionListener(e -> {
-            // Add action to navigate to the add field page
-            PageNavigation pageNavigationController = PageNavigation.getInstance(this);
             pageNavigationController.navigateToAddField();
         });
-        addButton.setFocusable(false);
 
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e ->{
+            pageNavigationController.navigateToClubHome();
+        });
+
+        addButton.setFocusable(false);
+        backButton.setFocusable(false);
+
+        buttonPanel.add(backButton);
         buttonPanel.add(addButton);
+
 
         return buttonPanel;
     }
