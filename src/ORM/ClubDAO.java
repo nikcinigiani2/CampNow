@@ -97,4 +97,15 @@ public class ClubDAO {
         }
         return false;
     }
+
+    public boolean idAlreadyUsed(String id) throws SQLException {
+        String query="SELECT COUNT(*) FROM clubs WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) >= 1;
+        }
+        return false;
+    }
 }

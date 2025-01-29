@@ -57,4 +57,11 @@ public class ClubService {
             throw new RuntimeException(e);
         }
     }
+    public boolean checkIdAlreadyUsed(String id) {
+        try {
+            return clubDAO.idAlreadyUsed(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

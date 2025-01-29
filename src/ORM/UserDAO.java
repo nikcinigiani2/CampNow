@@ -46,7 +46,7 @@ public class UserDAO {
     }
 
     public void updateUser(String cf, String name, String surname, int phoneNumber, String birthdate, String email, String password) throws SQLException{
-        if(!emailAlreadyUsed(email)){
+        if(!cfAlreadyUsed(cf)){
             String query = "UPDATE users SET name = ?, surname = ?, phoneNumber = ?, birthdate = ?, email = ?, password = ? WHERE cf = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setString(1,name);
@@ -61,7 +61,7 @@ public class UserDAO {
     }
 
     public void addUser(String cf, String name, String surname, int phoneNumber, Date birthdate, String email, String password) throws SQLException{
-        if(!emailAlreadyUsed(email)){
+        if(!cfAlreadyUsed(cf)){
             String query = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setString(1,cf);
@@ -81,6 +81,17 @@ public class UserDAO {
         ps.setString(1,email);
         ResultSet rs = ps.executeQuery();
         return rs;
+    }
+
+    public boolean cfAlreadyUsed(String cf) throws SQLException {
+        String query="SELECT COUNT(*) FROM users WHERE cf = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,cf);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) >= 1;
+        }
+        return false;
     }
 
     public boolean emailAlreadyUsed(String email) throws SQLException {

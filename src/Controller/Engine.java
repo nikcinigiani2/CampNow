@@ -51,7 +51,7 @@ public class Engine {
     public boolean registerUser(String cf, String name, String surname, int phoneNumber, Date birthdate, String email, String psw){
         boolean registered = false;
         UserService userService = (UserService) sf.getService(sf.USER_SERVICE);
-        if(!userService.checkEmailAlreadyUsed(email)){
+        if(!userService.checkCfAlreadyUsed(cf) && !userService.checkEmailAlreadyUsed(email)){
             userService.register(cf, name, surname, phoneNumber, birthdate, email, psw);
             this.user = userService.getCurrentUser();
             registered = true;
@@ -97,7 +97,7 @@ public class Engine {
     public boolean registerClub(String id, String name, String city, String address, int phoneNumber, String email, String psw){
         boolean registered = false;
         ClubService clubService = (ClubService) sf.getService(sf.CLUB_SERVICE);
-        if(!clubService.checkEmailAlreadyUsed(email)){
+        if(!clubService.checkEmailAlreadyUsed(email) && !clubService.checkIdAlreadyUsed(id)){
             clubService.register(id, name, city, address, phoneNumber, email, psw);
             this.club = clubService.getCurrentClub();
             registered = true;

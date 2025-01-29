@@ -46,6 +46,14 @@ public class UserService {
         }
     }
 
+    public boolean checkCfAlreadyUsed(String cf) {
+        try {
+            return userDAO.cfAlreadyUsed(cf);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean checkEmailAlreadyUsed(String email) {
         try {
             return userDAO.emailAlreadyUsed(email);
