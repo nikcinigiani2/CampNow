@@ -7,8 +7,6 @@ import Model.Field;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class FieldsTable extends StandardView {
@@ -76,11 +74,10 @@ public class FieldsTable extends StandardView {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
 
         JButton addButton = new JButton("Aggiungi un campo");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PageNavigation.getInstance(FieldsTable.this).navigateToAddField();
-            }
+        addButton.addActionListener(e -> {
+            // Add action to navigate to the add field page
+            PageNavigation pageNavigationController = PageNavigation.getInstance(this);
+            pageNavigationController.navigateToAddField();
         });
         addButton.setFocusable(false);
 

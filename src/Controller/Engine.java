@@ -1,7 +1,6 @@
 package Controller;
 
 import BusinessLogic.Service.*;
-import Model.Field;
 import Model.User;
 import Model.Club;
 
@@ -109,8 +108,6 @@ public class Engine {
         return registered;
     }
 
-    public void addField(Field newField) {
-    }
 
 
     // -------------------------------------
