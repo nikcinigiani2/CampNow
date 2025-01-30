@@ -34,4 +34,5 @@ public class Field {
     public Object getNumber() {
         return number;
     }
+    public int getPrice(){return price;}
 }

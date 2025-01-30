@@ -4,7 +4,12 @@ import javax.swing.*;
 
 public abstract class StandardView extends JFrame{
 
-    protected abstract void setupWindow();
+    protected void setupWindow() {
+        setTitle("CampNow");
+        setSize(900, 500);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
     protected abstract JPanel createMainPanel();
 

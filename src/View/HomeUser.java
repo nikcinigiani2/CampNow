@@ -16,14 +16,6 @@ public class HomeUser extends StandardView{
     }
 
     @Override
-    protected void setupWindow() {
-        setTitle("CampNow");
-        setSize(900, 500);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -71,7 +63,7 @@ public class HomeUser extends StandardView{
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         ButtonGroup buttonGroup = new ButtonGroup();
         //TODO cambia il navigateTo..
-        JToggleButton newReservationButton = createButton("Nuova Prenotazione", buttonGroup, pageNavigationController::navigateToReservationsTable );
+        JToggleButton newReservationButton = createButton("Nuova Prenotazione", buttonGroup, pageNavigationController::navigateToSearchFields );
         JToggleButton reservationButton = createButton("Prenotazioni", buttonGroup, pageNavigationController::navigateToReservationsTable );
 
         newReservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);

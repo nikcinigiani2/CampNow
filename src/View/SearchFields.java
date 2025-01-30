@@ -3,19 +3,19 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Field;
-import Model.Reservation;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ReservationsTable extends StandardView {
+public class SearchFields extends StandardView {
     private JTable table;
     private JScrollPane scrollPane;
 
-    public ReservationsTable() {
+    public SearchFields() {
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
@@ -34,7 +34,7 @@ public class ReservationsTable extends StandardView {
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("LE MIE PRENOTAZIONI", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("RICERCA CAMPO", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
@@ -51,26 +51,36 @@ public class ReservationsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Club", "Campo", "Data", "Ora di inizio", "Ora di fine", "Data/Ora"};
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
-        ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
-        for (Reservation reservation : reservations) {
+        String[] columnNames = {"ID", "Club", "Città", "Indirizo", "Numero", "Prezzo", "Prenota"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column==6;
+            }
+        };
+        ArrayList<Field> fields = Engine.getInstance().getAllFields();
+        JToggleButton reserveButton;
+        ButtonGroup buttonGroup = new ButtonGroup();
+        for (Field field : fields) {
             Object[] rowData = {
-                    reservation.getId(),
-                    Engine.getInstance().getNameById(reservation.getClubid()),
-                    reservation.getFieldId(),
-                    reservation.getDate(),
-                    reservation.getStartrent(),
-                    reservation.getEndrent(),
-                    reservation.getDatetime()
+                    field.getId(),
+                    Engine.getInstance().getNameById(field.getClubid()),
+                    Engine.getInstance().getCityById(field.getClubid()),
+                    Engine.getInstance().getAddressById(field.getClubid()),
+                    field.getNumber(),
+                    field.getPrice(),
+                    "Prenota"
             };
             tableModel.addRow(rowData);
         }
 
         table = new JTable(tableModel);
+
+        PageNavigation pageNavigation = PageNavigation.getInstance(this);
+        table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(table, pageNavigation));
+
         scrollPane = new JScrollPane(table);
-        table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         return tablePanel;
