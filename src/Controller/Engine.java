@@ -1,6 +1,7 @@
 package Controller;
 
 import BusinessLogic.Service.*;
+import Model.Field;
 import Model.User;
 import Model.Club;
 
@@ -108,16 +109,16 @@ public class Engine {
         return registered;
     }
 
-    public String getNameById(String id){
-        ClubService cs = (ClubService) sf.getService(sf.CLUB_SERVICE);
-        return cs.getNameById(id);
+    public void addField(Field newField) {
     }
-
 
 
     // -------------------------------------
 
 
 
+
 }
+
+
 
