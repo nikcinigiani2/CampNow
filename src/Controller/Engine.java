@@ -1,13 +1,11 @@
 package Controller;
 
 import BusinessLogic.Service.*;
-import Model.Reservation;
 import Model.User;
 import Model.Club;
 import Model.Field;
 
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -136,10 +134,11 @@ public class Engine {
 
 
 
-    public void addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
+    public boolean addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
         String clubid = getClub().getId();
         fs.addField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
+        return true;
     }
 
     // -------------------------------------

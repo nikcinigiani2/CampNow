@@ -146,15 +146,24 @@ public class AddField extends StandardView {
 
         JButton confirmButton = new JButton("Conferma");
         confirmButton.addActionListener(e -> {
-            int id = Integer.parseInt(idField.getText());
-            int number = Integer.parseInt(numberField.getText());
-            String soil = soilField.getText();
-            boolean lights = lightsCheckBox.isSelected();
-            boolean lockerroom = lockerroomCheckBox.isSelected();
-            int price = Integer.parseInt(priceField.getText());
-            Time startTime = Time.valueOf(startTimeField.getText() + ":00");
-            Time endTime = Time.valueOf(endTimeField.getText() + ":00");
-            Engine.getInstance().addField(id, number, soil, lights, lockerroom, price, startTime, endTime);
+            try {
+                int id = Integer.parseInt(idField.getText());
+                int number = Integer.parseInt(numberField.getText());
+                String soil = soilField.getText();
+                boolean lights = lightsCheckBox.isSelected();
+                boolean lockerroom = lockerroomCheckBox.isSelected();
+                int price = Integer.parseInt(priceField.getText());
+                Time startTime = Time.valueOf(startTimeField.getText() + ":00");
+                Time endTime = Time.valueOf(endTimeField.getText() + ":00");
+                boolean success = Engine.getInstance().addField(id, number, soil, lights, lockerroom, price, startTime, endTime);
+                if (success) {
+                    pageNavigationController.navigateToFieldsTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Errore durante l'aggiunta del campo", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM:SS format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
+            }
         });
         confirmButton.setFocusable(false);
         buttonPanel.add(confirmButton);
