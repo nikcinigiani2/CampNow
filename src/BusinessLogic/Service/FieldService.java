@@ -1,11 +1,13 @@
 package BusinessLogic.Service;
 
 import Model.Club;
+import Model.Reservation;
 import ORM.FieldDAO;
 import Model.Field;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FieldService {
     private FieldDAO fieldDAO;
@@ -33,10 +35,27 @@ public class FieldService {
     }
 
 
-    public ResultSet getAllFields() {
-        try {
-            return fieldDAO.getAllFields();
-        } catch (SQLException e) {
+    public ArrayList<Field> getAllFields() {
+        try{
+            ResultSet rs = fieldDAO.getAllFields();
+            ArrayList<Field> fields = new ArrayList<>();
+            if(rs!= null){
+                while (rs.next()) {
+                    int id = rs.getInt(("id"));
+                    String clubid = rs.getString("clubid");
+                    int number = rs.getInt("number");
+                    String soil = rs.getString("soil");
+                    boolean lights = rs.getBoolean("lights");
+                    boolean lockeeroom = rs.getBoolean("lockerroom");
+                    int price = rs.getInt("price");
+                    String starttime = rs.getString("starttime");
+                    String endtime = rs.getString("endtime");
+                    Field field = new Field(id, clubid, number, soil, lights, lockeeroom, price, starttime, endtime);
+                    fields.add(field);
+                }
+            }
+            return fields;
+        }catch(SQLException e){
             throw new RuntimeException(e);
         }
     }

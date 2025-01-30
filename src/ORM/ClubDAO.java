@@ -90,6 +90,28 @@ public class ClubDAO {
         return "null";
     }
 
+    public String getCityById(String id) throws SQLException{
+        String query = "SELECT city FROM clubs WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("city");
+        }
+        return "null";
+    }
+
+    public String getAddressdById(String id) throws SQLException{
+        String query = "SELECT address FROM clubs WHERE id = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("address");
+        }
+        return "null";
+    }
+
     public String getPasswordByEmail(String email) throws SQLException{
         String query = "SELECT password FROM clubs WHERE email = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);

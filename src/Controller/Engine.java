@@ -1,11 +1,15 @@
 package Controller;
 
 import BusinessLogic.Service.*;
+import Model.Reservation;
 import Model.User;
 import Model.Club;
+import Model.Field;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class Engine {
@@ -113,6 +117,20 @@ public class Engine {
         return cs.getNameById(id);
     }
 
+    public String getCityById(String id){
+        ClubService cs = (ClubService) sf.getService(sf.CLUB_SERVICE);
+        return cs.getCityById(id);
+    }
+
+    public String getAddressById(String id){
+        ClubService cs = (ClubService) sf.getService(sf.CLUB_SERVICE);
+        return cs.getAddressById(id);
+    }
+
+    public ArrayList<Field> getAllFields(){
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        return fs.getAllFields();
+    }
 
 
     // -------------------------------------

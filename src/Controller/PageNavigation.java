@@ -138,6 +138,30 @@ public class PageNavigation {
         currentFrame = rt;
     }
 
+    public void navigateToSearchFields() {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        SearchFields sf = new SearchFields();
+        sf.setSize(frameSize);
+        sf.setLocation(frameLocation);
+        currentFrame = sf;
+    }
+
+    public void navigateToReserveField(int fieldId) {
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        ReserveField rf = new ReserveField(fieldId);
+        rf.setSize(frameSize);
+        rf.setLocation(frameLocation);
+        currentFrame = rf;
+    }
+
     /*
     public void navigateToFieldDetails() {
         frameSize = currentFrame.getSize();

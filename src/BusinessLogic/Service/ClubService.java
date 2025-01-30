@@ -51,6 +51,26 @@ public class ClubService {
         }
     }
 
+    public String getCityById(String id){
+        try{
+            String city = clubDAO.getCityById(id);
+            return city;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getAddressById(String id){
+        try{
+            String address = clubDAO.getAddressdById(id);
+            return address;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     public void register(String id, String name, String city, String address, int phoneNumber, String email, String psw){
         try{
             clubDAO.addClub(id, name, city, address, phoneNumber, email, psw);
