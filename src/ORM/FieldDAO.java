@@ -5,9 +5,10 @@ import Model.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 public class FieldDAO {
-    public void addField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, String startTime, String endTime) throws SQLException{
+    public void addField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) throws SQLException{
         if(!alreadyFieldLoaded(id, clubid)){
             String query = "INSERT INTO fields VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -18,8 +19,8 @@ public class FieldDAO {
             ps.setBoolean(5, lights);
             ps.setBoolean(6, lockerroom);
             ps.setInt(7, price);
-            ps.setString(8, startTime);
-            ps.setString(9, endTime);
+            ps.setTime(8, startTime);
+            ps.setTime(9, endTime);
             ps.executeUpdate();
         }
     }
@@ -31,7 +32,7 @@ public class FieldDAO {
         ps.setString(2, clubid);
     }
 
-    public void updateField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, String startTime, String endTime) throws SQLException{
+    public void updateField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) throws SQLException{
         if(!alreadyFieldLoaded(id, clubid)) {
             String query = "UPDATE fields SET number = ?, soil = ?, lights = ?, lockerroom = ?, price = ?, starttime = ?, endtime = ? WHERE id = ? AND clubid = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -40,8 +41,8 @@ public class FieldDAO {
             ps.setBoolean(3, lights);
             ps.setBoolean(4, lockerroom);
             ps.setInt(5, price);
-            ps.setString(6, startTime);
-            ps.setString(7, endTime);
+            ps.setTime(6, startTime);
+            ps.setTime(7, endTime);
             ps.setInt(8, id);
             ps.setString(9, clubid);
             ps.executeUpdate();

@@ -193,11 +193,11 @@ public class PageNavigation {
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
-/*
+
         AddField af = new AddField();
         af.setSize(frameSize);
         af.setLocation(frameLocation);
-        currentFrame = af;*/
+        currentFrame = af;
     }
 
 }

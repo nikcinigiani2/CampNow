@@ -83,6 +83,14 @@ public class FieldsTable extends StandardView {
 
         buttonPanel.add(addButton);
 
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            PageNavigation pageNavigationController = PageNavigation.getInstance(this);
+            pageNavigationController.navigateToClubHome();
+        });
+        backButton.setFocusable(false);
+        buttonPanel.add(backButton);
+
         return buttonPanel;
     }
 }

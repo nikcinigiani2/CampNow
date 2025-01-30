@@ -7,6 +7,7 @@ import Model.Field;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class FieldService {
@@ -21,7 +22,7 @@ public class FieldService {
     }
 
 
-    public boolean addField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, String startTime, String endTime) {
+    public boolean addField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         try {
             fieldDAO.addField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
             field = new Field(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
@@ -48,8 +49,8 @@ public class FieldService {
                     boolean lights = rs.getBoolean("lights");
                     boolean lockeeroom = rs.getBoolean("lockerroom");
                     int price = rs.getInt("price");
-                    String starttime = rs.getString("starttime");
-                    String endtime = rs.getString("endtime");
+                    Time starttime = rs.getTime("starttime");
+                    Time endtime = rs.getTime("endtime");
                     Field field = new Field(id, clubid, number, soil, lights, lockeeroom, price, starttime, endtime);
                     fields.add(field);
                 }
@@ -89,8 +90,8 @@ public class FieldService {
             boolean lights = rs.getBoolean("lights");
             boolean lockerroom = rs.getBoolean("lockerroom");
             int price = rs.getInt("price");
-            String startTime = rs.getString("startTime");
-            String endTime = rs.getString("endTime");
+            Time startTime = rs.getTime("startTime");
+            Time endTime = rs.getTime("endTime");
             Field field = new Field(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
             return field;
         }catch(SQLException e){
@@ -110,7 +111,7 @@ public class FieldService {
         }
     }
 
-    public boolean updateField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, String startTime, String endTime){
+    public boolean updateField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime){
         try{
             fieldDAO.updateField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
             return true;

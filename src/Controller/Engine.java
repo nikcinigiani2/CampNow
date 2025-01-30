@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.sql.Time;
+
 
 public class Engine {
     private static Engine instance;
@@ -132,6 +134,13 @@ public class Engine {
         return fs.getAllFields();
     }
 
+
+
+    public void addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        String clubid = getClub().getId();
+        fs.addField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
+    }
 
     // -------------------------------------
 
