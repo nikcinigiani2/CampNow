@@ -61,7 +61,6 @@ public class HomeClub extends StandardView{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         ButtonGroup buttonGroup = new ButtonGroup();
-        //TODO cambia il navigateTo..
         JToggleButton fieldsButton = createButton("I miei campi", buttonGroup, pageNavigationController::navigateToFieldsTable);
         JToggleButton reservationButton = createButton("Prenotazioni", buttonGroup, pageNavigationController::navigateToClubRegister );
 

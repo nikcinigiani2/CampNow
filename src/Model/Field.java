@@ -37,4 +37,24 @@ public class Field {
         return number;
     }
     public int getPrice(){return price;}
+
+    public String getSoil() {
+        return soil;
+    }
+
+    public boolean isLights() {
+        return lights;
+    }
+
+    public boolean isLockerroom() {
+        return lockerroom;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
 }

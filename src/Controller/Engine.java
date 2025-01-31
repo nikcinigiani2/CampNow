@@ -1,11 +1,13 @@
 package Controller;
 
 import BusinessLogic.Service.*;
+import Model.Reservation;
 import Model.User;
 import Model.Club;
 import Model.Field;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -132,16 +134,26 @@ public class Engine {
         return fs.getAllFields();
     }
 
+    public Field getFieldByID(int fieldId, String clubId){
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        System.out.println("ID: "+fieldId+"\nClubId: "+clubId);
+        return fs.getFieldById(fieldId, clubId);
+    }
+
 
 
     public boolean addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
-        fs.addField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
-        return true;
+        return fs.addField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
     }
 
     // -------------------------------------
 
+
+    public boolean addReservation(String clubid, int fieldid, Date date, Time startTime, Time endTime){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.addReservation(clubid, fieldid, getUser().getCf(), date, startTime, endTime);
+    }
 
 
 }

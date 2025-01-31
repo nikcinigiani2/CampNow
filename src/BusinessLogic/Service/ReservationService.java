@@ -5,8 +5,10 @@ import Model.User;
 import ORM.ReservationDAO;
 import Model.Reservation;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -32,9 +34,9 @@ public class ReservationService {
                     String clubid = rs.getString("clubid");
                     int fieldid = rs.getInt("fieldid");
                     String usercf = rs.getString("usercf");
-                    String date = rs.getString("date");
-                    String startRent = rs.getString("startRent");
-                    String endRent = rs.getString("endRent");
+                    Date date = rs.getDate("date");
+                    Time startRent = rs.getTime("startRent");
+                    Time endRent = rs.getTime("endRent");
                     Reservation reservation = new Reservation(id, clubid, fieldid, usercf,date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
                     reservations.add(reservation);
                 }
@@ -54,9 +56,9 @@ public class ReservationService {
             String clubid = rs.getString("clubid");
             int fieldid = rs.getInt("fieldid");
             String usercf = rs.getString("usercf");
-            String date = rs.getString("date");
-            String startRent = rs.getString("startRent");
-            String endRent = rs.getString("endRent");
+            Date date = rs.getDate("date");
+            Time startRent = rs.getTime("startRent");
+            Time endRent = rs.getTime("endRent");
             Reservation reservation = new Reservation(id, clubid, fieldid, usercf,date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
             return reservation;
         } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class ReservationService {
         }
     }
 
-    public boolean addReservation(String clubid, int fieldid, String usercf, String date, String startRent, String endRent){
+    public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startRent, Time endRent){
         try{
             reservationDAO.addReservation(clubid, fieldid, usercf, date, startRent, endRent);
             int id = reservationDAO.getMostRecentReservationId(usercf);
@@ -88,7 +90,7 @@ public class ReservationService {
         }
     }
 
-    public boolean updateReservation(int id, String clubid, int fieldid, String date, String startRent, String endRent){
+    public boolean updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent){
         try{
             reservationDAO.updateReservation(id, clubid, fieldid, date, startRent, endRent);
             return true;

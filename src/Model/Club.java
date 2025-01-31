@@ -108,4 +108,5 @@ public class Club {
     public Object getCity() {
         return city;
     }
+
 }

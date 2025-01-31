@@ -150,13 +150,13 @@ public class PageNavigation {
         currentFrame = sf;
     }
 
-    public void navigateToReserveField(int fieldId) {
+    public void navigateToReserveField(int fieldId, String clubId, String clubName) {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        ReserveField rf = new ReserveField(fieldId);
+        ReserveField rf = new ReserveField(fieldId, clubId, clubName);
         rf.setSize(frameSize);
         rf.setLocation(frameLocation);
         currentFrame = rf;

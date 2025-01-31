@@ -60,8 +60,6 @@ public class FieldDAO {
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
         ps.setString(2, clubid);
-        ResultSet rs = ps.executeQuery();
-
         return ps.executeQuery();
     }
 

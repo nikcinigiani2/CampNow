@@ -20,9 +20,11 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
             fireEditingStopped(); // Ferma l'editing della cella
 
             int fieldId = (int) table.getValueAt(selectedRow, 0);
+            String clubId = (String) table.getValueAt(selectedRow, 1);
+            String clubName = (String) table.getValueAt(selectedRow, 2);
 
             if(type == "Prenota")
-                pageNavigation.navigateToReserveField(fieldId); // Cambia finestra
+                pageNavigation.navigateToReserveField(fieldId, clubId, clubName); // Cambia finestra
             else
                 pageNavigation.navigateToClubHome();
         });

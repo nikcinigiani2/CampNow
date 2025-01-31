@@ -43,19 +43,18 @@ public class SearchFields extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Club", "Città", "Indirizo", "Numero", "Prezzo", "Prenota"};
+        String[] columnNames = {"Campo", "ID Club", "Club", "Città", "Indirizo", "Numero", "Prezzo", "Prenota"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column==6;
+                return column==7;
             }
         };
         ArrayList<Field> fields = Engine.getInstance().getAllFields();
-        JToggleButton reserveButton;
-        ButtonGroup buttonGroup = new ButtonGroup();
         for (Field field : fields) {
             Object[] rowData = {
                     field.getId(),
+                    field.getClubid(),
                     Engine.getInstance().getNameById(field.getClubid()),
                     Engine.getInstance().getCityById(field.getClubid()),
                     Engine.getInstance().getAddressById(field.getClubid()),
@@ -69,8 +68,8 @@ public class SearchFields extends StandardView {
         table = new JTable(tableModel);
 
         PageNavigation pageNavigation = PageNavigation.getInstance(this);
-        table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer("Prenota"));
-        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor("Prenota",table, pageNavigation));
+        table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer("Prenota"));
+        table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor("Prenota",table, pageNavigation));
 
         scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
