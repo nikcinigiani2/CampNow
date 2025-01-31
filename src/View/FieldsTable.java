@@ -49,12 +49,12 @@ public class FieldsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Number", "Address", "City"};
+        String[] columnNames = {"ID", "Number", "Address", "City", "Modifica"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0)
         {
             @Override
             public boolean isCellEditable(int row, int column) {
-            return false;
+            return column==4;
         }
         };
         List<Field> fields = Engine.getInstance().getClub().getFields();
@@ -63,12 +63,17 @@ public class FieldsTable extends StandardView {
                     field.getId(),
                     field.getNumber(),
                     Engine.getInstance().getClub().getAddress(),
-                    Engine.getInstance().getClub().getCity()
+                    Engine.getInstance().getClub().getCity(),
+                    "Modifica"
             };
             tableModel.addRow(rowData);
         }
 
         table = new JTable(tableModel);
+        PageNavigation pageNavigationController = PageNavigation.getInstance(this);
+        table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
+        table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("Modifica",table, pageNavigationController));
+
         scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 

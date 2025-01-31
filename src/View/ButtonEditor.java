@@ -10,9 +10,10 @@ import java.awt.*;
 class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     private JButton button;
     private int selectedRow;
+    private String type;
 
-    public ButtonEditor(JTable table, PageNavigation pageNavigation) {
-        button = new JButton("Prenota");
+    public ButtonEditor(String type, JTable table, PageNavigation pageNavigation) {
+        button = new JButton(type);
         button.setOpaque(true);
 
         button.addActionListener(e -> {
@@ -20,7 +21,10 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 
             int fieldId = (int) table.getValueAt(selectedRow, 0);
 
-            pageNavigation.navigateToReserveField(fieldId); // Cambia finestra
+            if(type == "Prenota")
+                pageNavigation.navigateToReserveField(fieldId); // Cambia finestra
+            else
+                pageNavigation.navigateToClubHome();
         });
     }
 

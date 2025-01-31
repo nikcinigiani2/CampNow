@@ -77,8 +77,8 @@ public class SearchFields extends StandardView {
         table = new JTable(tableModel);
 
         PageNavigation pageNavigation = PageNavigation.getInstance(this);
-        table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(table, pageNavigation));
+        table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer("Prenota"));
+        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor("Prenota",table, pageNavigation));
 
         scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
