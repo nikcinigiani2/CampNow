@@ -24,14 +24,6 @@ public class RegisterClub extends StandardView {
     }
 
     @Override
-    protected void setupWindow() {
-        setTitle("Sign Up as Club");
-        setSize(900, 500);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 

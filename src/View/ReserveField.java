@@ -20,9 +20,7 @@ public class ReserveField extends StandardView{
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JLabel label = new JLabel("ID campo: "+fieldId);
 
-        mainPanel.add(label);
 
         return mainPanel;
     }
