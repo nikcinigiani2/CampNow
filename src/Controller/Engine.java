@@ -136,8 +136,7 @@ public class Engine {
 
     public boolean addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
-        String clubid = getClub().getId();
-        fs.addField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
+        fs.addField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
         return true;
     }
 

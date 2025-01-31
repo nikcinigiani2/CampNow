@@ -58,25 +58,31 @@ public class FieldsTable extends StandardView {
         }
         };
         List<Field> fields = Engine.getInstance().getClub().getFields();
-        for (Field field : fields) {
-            Object[] rowData = {
-                    field.getId(),
-                    field.getNumber(),
-                    Engine.getInstance().getClub().getAddress(),
-                    Engine.getInstance().getClub().getCity(),
-                    "Modifica"
-            };
-            tableModel.addRow(rowData);
+        if(fields.isEmpty()){
+            JLabel noReservationsLabel = new JLabel("Nessun campo ancora inserito", JLabel.CENTER);
+            noReservationsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            tablePanel.add(noReservationsLabel, BorderLayout.CENTER);
         }
+        else{
+            for (Field field : fields) {
+                Object[] rowData = {
+                        field.getId(),
+                        field.getNumber(),
+                        Engine.getInstance().getClub().getAddress(),
+                        Engine.getInstance().getClub().getCity(),
+                        "Modifica"
+                };
 
-        table = new JTable(tableModel);
-        PageNavigation pageNavigationController = PageNavigation.getInstance(this);
-        table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
-        table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("Modifica",table, pageNavigationController));
+                tableModel.addRow(rowData);
+            }
+            table = new JTable(tableModel);
+            PageNavigation pageNavigationController = PageNavigation.getInstance(this);
+            table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
+            table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("Modifica",table, pageNavigationController));
 
-        scrollPane = new JScrollPane(table);
-        tablePanel.add(scrollPane, BorderLayout.CENTER);
-
+            scrollPane = new JScrollPane(table);
+            tablePanel.add(scrollPane, BorderLayout.CENTER);
+        }
         return tablePanel;
     }
 

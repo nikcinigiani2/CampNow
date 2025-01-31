@@ -55,23 +55,29 @@ public class ReservationsTable extends StandardView {
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
-        for (Reservation reservation : reservations) {
-            Object[] rowData = {
-                    reservation.getId(),
-                    Engine.getInstance().getNameById(reservation.getClubid()),
-                    reservation.getFieldId(),
-                    reservation.getDate(),
-                    reservation.getStartrent(),
-                    reservation.getEndrent(),
-                    reservation.getDatetime()
-            };
-            tableModel.addRow(rowData);
-        }
+        if (reservations.isEmpty()) {
+            JLabel noReservationsLabel = new JLabel("Nessuna prenotazione ancora effettuata", JLabel.CENTER);
+            noReservationsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            tablePanel.add(noReservationsLabel, BorderLayout.CENTER);
+        } else {
+            for (Reservation reservation : reservations) {
+                Object[] rowData = {
+                        reservation.getId(),
+                        Engine.getInstance().getNameById(reservation.getClubid()),
+                        reservation.getFieldId(),
+                        reservation.getDate(),
+                        reservation.getStartrent(),
+                        reservation.getEndrent(),
+                        reservation.getDatetime()
+                };
+                tableModel.addRow(rowData);
+            }
+            table = new JTable(tableModel);
+            scrollPane = new JScrollPane(table);
+            table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
+            tablePanel.add(scrollPane, BorderLayout.CENTER);
 
-        table = new JTable(tableModel);
-        scrollPane = new JScrollPane(table);
-        table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
-        tablePanel.add(scrollPane, BorderLayout.CENTER);
+        }
 
         return tablePanel;
     }

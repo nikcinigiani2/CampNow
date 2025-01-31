@@ -25,14 +25,6 @@ public class AddField extends StandardView {
     }
 
     @Override
-    protected void setupWindow() {
-        setTitle("Aggiungi Campo");
-        setSize(400, 400);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -161,6 +153,8 @@ public class AddField extends StandardView {
                 } else {
                     JOptionPane.showMessageDialog(this, "Errore durante l'aggiunta del campo", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID, Number, and Price", "Invalid Number Format", JOptionPane.ERROR_MESSAGE);
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM:SS format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
             }
