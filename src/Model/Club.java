@@ -69,6 +69,12 @@ public class Club {
         }
     }
 
+    public void loadFields(ArrayList<Field> fields){
+        this.fields = fields;
+    }
+
+
+
     public int numberFields(){
         return fields.size();
     }

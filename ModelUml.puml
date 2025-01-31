@@ -1,0 +1,43 @@
+@startuml
+ package Model {
+     class Club {
+
+         + Club(String id, String name, ecc...)
+         + Club()
+         + int numberReservations()
+         + boolean alreadyReservationLoaded(int reservationID)
+         + void addField(Field field)
+         + void removeField(int fieldID)
+         + int numberFields()
+         + boolean alreadyFieldLoaded(int fieldID)
+         + String getId()
+         + String getName()
+     }
+
+     class Field {
+
+         + int getId()
+         + String getName()
+     }
+
+     class Reservation {
+         + int getId()
+         + String getDate()
+     }
+
+     class User {
+
+         + User(String id, String name, String email, String password)
+         + String getId()
+         + String getName()
+         + String getEmail()
+     }
+
+     Club  *--  Field
+
+     User  *--  Reservation
+
+     Field  *--  Reservation
+
+     }
+ @enduml

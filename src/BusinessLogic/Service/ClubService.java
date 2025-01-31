@@ -35,6 +35,7 @@ public class ClubService {
         club = clubDAO.selectClubByEmail(email);
 
         fieldService.setClub(club);
+        fieldService.getFields("clubid", club.getId());
         reservationService.setClub(club);
     }
 

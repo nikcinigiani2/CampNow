@@ -1,0 +1,52 @@
+@startuml
+package ORM {
+    class ManagerDAO {
+        + ManagerDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class UserDAO {
+        + UserDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class ClubDAO {
+        + ClubDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class FieldDAO {
+        + FieldDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    class ReservationDAO {
+        + ReservationDAO(String databaseUrl, String username, String password)
+        + void connect()
+        + void disconnect()
+        + ResultSet executeQuery(String query)
+        + int executeUpdate(String query)
+    }
+
+    ManagerDAO <.. UserDAO
+    ManagerDAO <.. ClubDAO
+    ManagerDAO <.. FieldDAO
+    ManagerDAO <.. ReservationDAO
+
+    UserDAO -[hidden]-> ClubDAO
+    FieldDAO -[hidden]-> ReservationDAO
+
+}
+@enduml

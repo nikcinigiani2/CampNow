@@ -66,9 +66,27 @@ public class FieldService {
         value = valori dei relativi campi
      */
     public ResultSet getFields(String column, Object value) {
-        try {
-            return fieldDAO.getFields(column, value);
-        } catch (SQLException e) {
+        try{
+            ResultSet rs = fieldDAO.getFields(column, value);
+            ArrayList<Field> fields = new ArrayList<>();
+            if(rs!= null){
+                while (rs.next()) {
+                    int id = rs.getInt(("id"));
+                    String clubid = rs.getString("clubid");
+                    int number = rs.getInt("number");
+                    String soil = rs.getString("soil");
+                    boolean lights = rs.getBoolean("lights");
+                    boolean lockeeroom = rs.getBoolean("lockerroom");
+                    int price = rs.getInt("price");
+                    Time starttime = rs.getTime("starttime");
+                    Time endtime = rs.getTime("endtime");
+                    Field field = new Field(id, clubid, number, soil, lights, lockeeroom, price, starttime, endtime);
+                    fields.add(field);
+                }
+                club.loadFields(fields);
+            }
+            return rs;
+        }catch(SQLException e){
             throw new RuntimeException(e);
         }
     }

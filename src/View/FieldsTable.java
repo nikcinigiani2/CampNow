@@ -50,8 +50,13 @@ public class FieldsTable extends StandardView {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
         String[] columnNames = {"ID", "Number", "Address", "City"};
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+        };
         List<Field> fields = Engine.getInstance().getClub().getFields();
         for (Field field : fields) {
             Object[] rowData = {
