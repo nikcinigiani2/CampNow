@@ -210,6 +210,13 @@ public class ReserveField extends StandardView{
             String selectedEndTime = (String) endTimeComboBox.getSelectedItem();
             String selectedDate = dateField.getText();
 
+
+            Time startTime =  Time.valueOf(selectedStartTime + ":00");
+            Time endTime =  Time.valueOf(selectedEndTime + ":00");
+
+
+
+
             //TODO controllare disponibilità con altre prenotazioni
 
 
@@ -223,12 +230,13 @@ public class ReserveField extends StandardView{
                 return;
             }
 
-            //if(!Engine.getInstance().addReservation(clubId, fieldId, date, selectedStartTime, selectedEndTime))
+            if(Engine.getInstance().addReservation(clubId, fieldId, date, startTime, endTime)){
+                JOptionPane.showMessageDialog(this, "Prenotazione avvenuta con successo", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Errore durante la registrazione della prenotazione", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
-            // Stampare i valori per verifica
-            System.out.println("Ora di Inizio selezionata: " + selectedStartTime);
-            System.out.println("Ora di Fine selezionata: " + selectedEndTime);
-            System.out.println("Data: " + date);
 
             //TODO mettere la logica di creare una prenotazione
 

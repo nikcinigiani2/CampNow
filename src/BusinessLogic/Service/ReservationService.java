@@ -82,10 +82,9 @@ public class ReservationService {
             reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
 
             user.addReservation(reservation);
-            club.addReservation(reservation);
             return true;
         }catch(SQLException e){
-            System.err.println("Errore durante l'aggiunta della prenotazione: " +e.getMessage());
+            System.err.println("Errore durante l'aggiunta della prenotazione: " + e.getMessage());
             return false;
         }
     }
