@@ -24,6 +24,8 @@ public class ReservationService {
         this.reservationDAO = reservationDAO;
     }
 
+    //TODO fai query per il club
+
     public ResultSet getAllReservation(){
         try{
             ResultSet rs = reservationDAO.getAllReservations(user.getCf());
@@ -42,6 +44,7 @@ public class ReservationService {
                 }
 
                 user.loadReservations(reservations);
+                club.loadReservations(reservations);
             }
             return rs;
         }catch(SQLException e){
@@ -84,6 +87,7 @@ public class ReservationService {
                 int id = reservationDAO.getMostRecentReservationId(usercf);
                 reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
                 user.addReservation(reservation);
+                club.addReservation(reservation);
             }
             return added;
         }catch(SQLException e){
@@ -106,6 +110,7 @@ public class ReservationService {
         try{
             reservationDAO.deleteReservation(id);
             user.removeReservation(id);
+            club.removeReservation(id);
             return true;
         }catch(SQLException e){
             System.err.println("Errore durante la rimozione della prenotazione: " +e.getMessage());

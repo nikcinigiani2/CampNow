@@ -44,7 +44,7 @@ public class HomeClub extends StandardView{
 
         JLabel titleLabel = new JLabel("Home", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 80, 20, 0));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 0));
         topPanel.add(titleLabel, BorderLayout.CENTER);
 
         JLabel clubLabel = new JLabel("Benvenuto, " + Engine.getInstance().getClub().getName(), JLabel.CENTER);
@@ -62,7 +62,12 @@ public class HomeClub extends StandardView{
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         ButtonGroup buttonGroup = new ButtonGroup();
         JToggleButton fieldsButton = createButton("I miei campi", buttonGroup, pageNavigationController::navigateToFieldsTable);
-        JToggleButton reservationButton = createButton("Prenotazioni", buttonGroup, pageNavigationController::navigateToClubRegister );
+
+        JButton reservationButton = new JButton("Prenotazioni");
+        reservationButton.addActionListener(e -> {
+            pageNavigationController.navigateToReservationsTable(Engine.getInstance().getClub());
+        });
+
 
         fieldsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         reservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);

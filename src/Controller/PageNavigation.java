@@ -126,13 +126,13 @@ public class PageNavigation {
         currentFrame = ft;
     }
 
-    public void navigateToReservationsTable() {
+    public void navigateToReservationsTable(Object userType) {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        ReservationsTable rt = new ReservationsTable();
+        ReservationsTable rt = new ReservationsTable(userType);
         rt.setSize(frameSize);
         rt.setLocation(frameLocation);
         currentFrame = rt;

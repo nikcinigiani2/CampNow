@@ -34,8 +34,12 @@ public class User {
         this.reservations = reservations;
     }
 
-    public void addReservation(Reservation reservation){
-        reservations.add(reservation);
+    public boolean addReservation(Reservation reservation){
+        if(alreadyReservationLoaded(reservation.getId())){
+            reservations.add(reservation);
+            return true;
+        }
+        return false;
     }
 
     public void removeReservation(int reservationID) {
@@ -53,7 +57,7 @@ public class User {
         return reservations.size();
     }
 
-    public boolean alreadyReservationLoaded(int reservationID){
+    private boolean alreadyReservationLoaded(int reservationID){
         boolean loaded = false;
         for(Reservation r: reservations){
             if(r.getId() == reservationID) {

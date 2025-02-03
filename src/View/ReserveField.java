@@ -44,7 +44,7 @@ public class ReserveField extends StandardView{
 
         JPanel contentPanel = new JPanel(new BorderLayout());
         Border margin = new EmptyBorder(0,100,0,100);
-        Border backBorder = BorderFactory.createLineBorder(Color.BLACK);
+        Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
 
 
         JPanel nameFieldPanel = createNameFieldPanel();
@@ -53,7 +53,7 @@ public class ReserveField extends StandardView{
         JPanel detailPanel = createDetailPanel();
         contentPanel.add(detailPanel, BorderLayout.CENTER);
 
-        contentPanel.setBorder(new CompoundBorder(margin, backBorder));
+        contentPanel.setBorder(new CompoundBorder(margin, blackBorder));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
 

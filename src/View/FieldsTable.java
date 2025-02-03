@@ -83,13 +83,10 @@ public class FieldsTable extends StandardView {
 
         JButton addButton = new JButton("Aggiungi un campo");
         addButton.addActionListener(e -> {
-            // Add action to navigate to the add field page
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
             pageNavigationController.navigateToAddField();
         });
-        addButton.setFocusable(false);
 
-        buttonPanel.add(addButton);
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
@@ -98,6 +95,9 @@ public class FieldsTable extends StandardView {
         });
         backButton.setFocusable(false);
         buttonPanel.add(backButton);
+
+        addButton.setFocusable(false);
+        buttonPanel.add(addButton);
 
         return buttonPanel;
     }

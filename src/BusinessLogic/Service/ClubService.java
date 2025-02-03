@@ -37,6 +37,7 @@ public class ClubService {
         fieldService.setClub(club);
         fieldService.getFields("clubid", club.getId());
         reservationService.setClub(club);
+        reservationService.getAllReservation();
     }
 
     public Club getCurrentClub(){

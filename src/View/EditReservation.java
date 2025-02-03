@@ -123,7 +123,7 @@ public class EditReservation extends StandardView{
         JButton reserveButton = new JButton("Conferma");
         JButton deleteButton = new JButton("Elimina Prenotazione");
         backButton.addActionListener(e ->{
-            pageNavigationController.navigateToReservationsTable();
+            pageNavigationController.navigateToReservationsTable(Engine.getInstance().getUser());
         });
 
         reserveButton.addActionListener(e ->{
@@ -163,7 +163,7 @@ public class EditReservation extends StandardView{
             }else{
                 JOptionPane.showMessageDialog(this, "Errore durante l'eliminazione della prenotazione!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            pageNavigationController.navigateToReservationsTable();
+            pageNavigationController.navigateToReservationsTable(Engine.getInstance().getUser());
         });
 
         backButton.setFocusable(false);

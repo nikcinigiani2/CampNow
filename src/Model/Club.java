@@ -35,8 +35,15 @@ public class Club {
         return reservations.size();
     }
 
-    public void addReservation(Reservation reservation){
-        reservations.add(reservation);
+    public void loadReservations(ArrayList<Reservation> reservations){
+        this.reservations = reservations;
+    }
+    public boolean addReservation(Reservation reservation){
+        if(alreadyReservationLoaded(reservation.getId())){
+            reservations.add(reservation);
+            return true;
+        }
+        return false;
     }
 
     public void removeReservation(int reservationID){
@@ -47,7 +54,7 @@ public class Club {
         }
     }
 
-    public boolean alreadyReservationLoaded(int reservationID){
+    private boolean alreadyReservationLoaded(int reservationID){
         boolean loaded = false;
         for(Reservation r: reservations){
             if(r.getId() == reservationID) {
@@ -99,6 +106,10 @@ public class Club {
 
     public  ArrayList<Field> getFields(){
         return fields;
+    }
+
+    public  ArrayList<Reservation> getReservations(){
+        return reservations;
     }
 
     public Object getAddress() {
