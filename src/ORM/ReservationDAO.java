@@ -15,10 +15,6 @@ public class ReservationDAO {
     }
 
     public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent) throws SQLException {
-        boolean disponibile = checkDisponibility(fieldid, clubid, date, startrent, endrent);
-        System.out.println("Il campo è disponibile? " + disponibile);
-
-
         if(checkDisponibility(fieldid, clubid, date, startrent, endrent)){
             String query = "insert into reservations (clubid, fieldid, usercf, date, startrent, endrent) " +
                     "values (?, ?, ?, ?, ?, ?)";
@@ -97,22 +93,18 @@ public class ReservationDAO {
     }
 
     private boolean tableIsEmpty() throws SQLException {
-        String query = "SELECT count(*) FROM reservations";  // Attento alle maiuscole/minuscole nel nome della tabella
+        String query = "SELECT count(*) FROM reservations";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
             int count = rs.getInt(1);
-            System.out.println("Numero di prenotazioni trovate: " + count);  // Debug
-            return count == 0;  // Ritorna true solo se la tabella è DAVVERO VUOTA
+            return count == 0;
         }
-        return true; // Se il ResultSet è vuoto (improbabile), allora assumiamo che sia vuoto
+        return true;
     }
 
     private boolean checkDisponibility(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException {
-        System.out.println("Controllo disponibilità per il campo " + fieldid + " nel club " + clubid + " il " + date);
-
-        // Se la tabella è vuota, nessuna prenotazione presente -> il campo è disponibile
         if (!tableIsEmpty()) {
             String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
             PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
@@ -138,15 +130,11 @@ public class ReservationDAO {
 
                 if (rs2.next()) {
                     int count = rs2.getInt(1);
-                    System.out.println("Prenotazioni sovrapposte trovate: " + count);
-                    return count == 0; // Se count è 0, significa che non ci sono sovrapposizioni
+                    return count == 0;
                 }
             }
             return false;
         }
-
-        System.out.println("Tabella prenotazioni vuota, quindi disponibile.");
         return true;
     }
-
 }

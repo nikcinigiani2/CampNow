@@ -55,4 +55,16 @@ public class Reservation {
     public String getDatetime() {
         return datetime;
     }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setStartrent(Time startrent) {
+        this.startrent = startrent;
+    }
+
+    public void setEndrent(Time endrent) {
+        this.endrent = endrent;
+    }
 }

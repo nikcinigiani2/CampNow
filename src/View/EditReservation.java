@@ -123,14 +123,13 @@ public class EditReservation extends StandardView{
         JButton reserveButton = new JButton("Conferma");
         JButton deleteButton = new JButton("Elimina Prenotazione");
         backButton.addActionListener(e ->{
-            pageNavigationController.navigateToSearchFields();
+            pageNavigationController.navigateToReservationsTable();
         });
 
         reserveButton.addActionListener(e ->{
             String selectedStartTime = (String) startTimeComboBox.getSelectedItem();
             String selectedEndTime = (String) endTimeComboBox.getSelectedItem();
             String selectedDate = dateField.getText();
-
 
             Time startTime =  Time.valueOf(selectedStartTime + ":00");
             Time endTime =  Time.valueOf(selectedEndTime + ":00");
@@ -144,20 +143,27 @@ public class EditReservation extends StandardView{
                 return;
             }
 
-            /*
-            //TODO mettere updateReservation
-
-            if(Engine.getInstance().addReservation(, fieldId, date, startTime, endTime)){
-                JOptionPane.showMessageDialog(this, "Modifica avvenuta con successo", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari", "Error", JOptionPane.ERROR_MESSAGE);
-            }*/
-
+            if(endTime.before(startTime) || startTime.equals(endTime)) {
+                JOptionPane.showMessageDialog(this, "Inserire correttamente gli orari", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                if (Engine.getInstance().updateReservation(reservationId, Engine.getInstance().getReservationByID(reservationId).getClubid(), Engine.getInstance().getReservationByID(reservationId).getFieldId(), date, startTime, endTime)) {
+                    saveChanges(date, startTime, endTime);
+                    JOptionPane.showMessageDialog(this, "Modifica avvenuta con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
             pageNavigationController.navigateToUserHome();
         });
 
         deleteButton.addActionListener(e->{
-            //TODO aggiungere logica cancella prenotazione
+            if(Engine.getInstance().deleteReservation(reservationId)){
+                JOptionPane.showMessageDialog(this, "Prenotazione eliminata con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Errore durante l'eliminazione della prenotazione!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            pageNavigationController.navigateToReservationsTable();
         });
 
         backButton.setFocusable(false);
@@ -169,6 +175,19 @@ public class EditReservation extends StandardView{
         buttonPanel.add(deleteButton);
 
         return buttonPanel;
+    }
+
+    private void saveChanges(Date date, Time startRent, Time endRent){
+        ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
+
+        for(Reservation reservation : reservations){
+            if(reservation.getId() == reservationId){
+                reservation.setDate(date);
+                reservation.setStartrent(startRent);
+                reservation.setEndrent(endRent);
+            }
+        }
+        Engine.getInstance().getUser().loadReservations(reservations);
     }
 
     private String[] generateTimeSlots(Time startTime, Time endTime) {

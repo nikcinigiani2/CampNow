@@ -214,13 +214,6 @@ public class ReserveField extends StandardView{
             Time startTime =  Time.valueOf(selectedStartTime + ":00");
             Time endTime =  Time.valueOf(selectedEndTime + ":00");
 
-
-
-
-
-
-
-
             Date date;
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -229,13 +222,15 @@ public class ReserveField extends StandardView{
                 JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-mm-dd", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            if(Engine.getInstance().addReservation(clubId, fieldId, date, startTime, endTime)){
-                JOptionPane.showMessageDialog(this, "Prenotazione avvenuta con successo", "Success", JOptionPane.INFORMATION_MESSAGE);
+            if(endTime.before(startTime) || startTime.equals(endTime)) {
+                JOptionPane.showMessageDialog(this, "Inserire correttamente gli orari!", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari", "Error", JOptionPane.ERROR_MESSAGE);
+                if(Engine.getInstance().addReservation(clubId, fieldId, date, startTime, endTime)){
+                    JOptionPane.showMessageDialog(this, "Prenotazione avvenuta con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-
             pageNavigationController.navigateToUserHome();
         });
 

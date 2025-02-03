@@ -160,6 +160,16 @@ public class Engine {
         return rs.getReservationById(reservationId);
     }
 
+    public boolean updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.updateReservation(id, clubid, fieldid, date, startRent, endRent);
+    }
+
+    public boolean deleteReservation(int id){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.deleteReservation(id);
+    }
+
 
 }
 

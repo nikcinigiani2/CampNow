@@ -105,8 +105,7 @@ public class ReservationService {
     public boolean deleteReservation(int id){
         try{
             reservationDAO.deleteReservation(id);
-            user.removeResevation(id);
-            club.removeReservation(id);
+            user.removeReservation(id);
             return true;
         }catch(SQLException e){
             System.err.println("Errore durante la rimozione della prenotazione: " +e.getMessage());

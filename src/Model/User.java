@@ -2,6 +2,7 @@ package Model;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class User {
     private String cf;
@@ -37,10 +38,13 @@ public class User {
         reservations.add(reservation);
     }
 
-    public void removeResevation(int reservationID){
-        for(Reservation r: reservations){
-            if(r.getId() == reservationID){
-                reservations.remove(r);
+    public void removeReservation(int reservationID) {
+        Iterator<Reservation> iterator = reservations.iterator();
+        while (iterator.hasNext()) {
+            Reservation r = iterator.next();
+            if (r.getId() == reservationID) {
+                iterator.remove();
+                return;
             }
         }
     }
