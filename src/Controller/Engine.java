@@ -5,6 +5,7 @@ import Model.Reservation;
 import Model.User;
 import Model.Club;
 import Model.Field;
+import View.ReserveField;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -136,7 +137,6 @@ public class Engine {
 
     public Field getFieldByID(int fieldId, String clubId){
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
-        System.out.println("ID: "+fieldId+"\nClubId: "+clubId);
         return fs.getFieldById(fieldId, clubId);
     }
 
@@ -153,6 +153,11 @@ public class Engine {
     public boolean addReservation(String clubid, int fieldid, Date date, Time startTime, Time endTime){
         ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
         return rs.addReservation(clubid, fieldid, getUser().getCf(), date, startTime, endTime);
+    }
+
+    public Reservation getReservationByID(int reservationId){
+        ReservationService rs = (ReservationService)  sf.getService(sf.RESERVATION_SERVICE);
+        return rs.getReservationById(reservationId);
     }
 
 

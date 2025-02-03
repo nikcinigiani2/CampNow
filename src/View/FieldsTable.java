@@ -70,7 +70,7 @@ public class FieldsTable extends StandardView {
             table = new JTable(tableModel);
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
             table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
-            table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("Modifica",table, pageNavigationController));
+            table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("ModificaC",table, pageNavigationController));
 
             scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);

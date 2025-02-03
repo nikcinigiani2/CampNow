@@ -114,7 +114,6 @@ public class FieldService {
                     Time starttime = rs.getTime("starttime");
                     Time endtime = rs.getTime("endtime");
                     field = new Field(id, clubid, number, soil, lights, lockerroom, price, starttime, endtime);
-
                 }
             }
             return field;

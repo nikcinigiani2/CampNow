@@ -42,9 +42,14 @@ public class ReservationsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Club", "Campo", "Data", "Ora di inizio", "Ora di fine", "Data/Ora"};
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
+        String[] columnNames = {"ID", "Club", "Campo", "Data", "Ora di inizio", "Ora di fine", "Data/Ora", "Modifica"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column==7;
+            }
+        };
         ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
         if (reservations.isEmpty()) {
             JLabel noReservationsLabel = new JLabel("Nessuna prenotazione ancora effettuata", JLabel.CENTER);
@@ -59,13 +64,18 @@ public class ReservationsTable extends StandardView {
                         reservation.getDate(),
                         reservation.getStartrent(),
                         reservation.getEndrent(),
-                        reservation.getDatetime()
+                        reservation.getDatetime(),
+                        "Modifica"
                 };
                 tableModel.addRow(rowData);
             }
             table = new JTable(tableModel);
-            scrollPane = new JScrollPane(table);
+            PageNavigation pageNavigationController = PageNavigation.getInstance(this);
+            table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer("Modifica"));
+            table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor("ModificaP",table, pageNavigationController));
+
             table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
+            scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);
         }
 

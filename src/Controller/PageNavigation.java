@@ -162,6 +162,18 @@ public class PageNavigation {
         currentFrame = rf;
     }
 
+    public void navigateToEditReservation(int reservationId){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        EditReservation rf = new EditReservation(reservationId);
+        rf.setSize(frameSize);
+        rf.setLocation(frameLocation);
+        currentFrame = rf;
+    }
+
     /*
     public void navigateToFieldDetails() {
         frameSize = currentFrame.getSize();
