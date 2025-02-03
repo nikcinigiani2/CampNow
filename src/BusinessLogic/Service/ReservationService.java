@@ -76,16 +76,19 @@ public class ReservationService {
     }
 
     public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startRent, Time endRent){
+        boolean added = false;
         try{
-            reservationDAO.addReservation(clubid, fieldid, usercf, date, startRent, endRent);
-            int id = reservationDAO.getMostRecentReservationId(usercf);
-            reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
+            added = reservationDAO.addReservation(clubid, fieldid, usercf, date, startRent, endRent);
 
-            user.addReservation(reservation);
-            return true;
+            if(added){
+                int id = reservationDAO.getMostRecentReservationId(usercf);
+                reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
+                user.addReservation(reservation);
+            }
+            return added;
         }catch(SQLException e){
             System.err.println("Errore durante l'aggiunta della prenotazione: " + e.getMessage());
-            return false;
+            return added;
         }
     }
 

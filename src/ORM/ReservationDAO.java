@@ -7,15 +7,19 @@ import java.sql.*;
 
 
 public class ReservationDAO {
-    public ResultSet getAllReservations(String cf) throws SQLException{
+    public ResultSet getAllReservations(String cf) throws SQLException {
         String query = "SELECT * FROM reservations WHERE usercf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1, cf);
         return ps.executeQuery();
     }
 
-    public void addReservation(String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent) throws SQLException{
-        if(tableIsEmpty()){
+    public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent) throws SQLException {
+        boolean disponibile = checkDisponibility(fieldid, clubid, date, startrent, endrent);
+        System.out.println("Il campo è disponibile? " + disponibile);
+
+
+        if(checkDisponibility(fieldid, clubid, date, startrent, endrent)){
             String query = "insert into reservations (clubid, fieldid, usercf, date, startrent, endrent) " +
                     "values (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -26,20 +30,10 @@ public class ReservationDAO {
             ps.setTime(5, startrent);
             ps.setTime(6, endrent);
             ps.executeUpdate();
+            return true;
         }
         else{
-            if(checkDisponibility(fieldid, clubid, date, startrent, startrent)){
-                String query = "insert into reservations (clubid, fieldid, usercf, date, startrent, endrent) " +
-                        "values (?, ?, ?, ?, ?, ?)";
-                PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-                ps.setString(1, clubid);
-                ps.setInt(2, fieldid);
-                ps.setString(3, usercf);
-                ps.setDate(4, date);
-                ps.setTime(5, startrent);
-                ps.setTime(6, endrent);
-                ps.executeUpdate();
-            }
+            return false;
         }
     }
 
@@ -52,7 +46,7 @@ public class ReservationDAO {
         return rs.getInt("id");
     }
 
-    public String getDateTimeReservation(int id) throws SQLException{
+    public String getDateTimeReservation(int id) throws SQLException {
         String query = "SELECT datetime FROM reservations WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
@@ -68,8 +62,8 @@ public class ReservationDAO {
         ps.executeUpdate();
     }
 
-    public void updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent) throws SQLException{
-        if(checkDisponibility(fieldid, clubid, date, startRent, endRent)){
+    public void updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent) throws SQLException {
+        if (checkDisponibility(fieldid, clubid, date, startRent, endRent)) {
             String query = "update reservations set date = ?, startrent = ?, endrent = ? where id = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setDate(1, date);
@@ -81,7 +75,7 @@ public class ReservationDAO {
     }
 
 
-    public ResultSet getReservationByID (int id) throws SQLException{
+    public ResultSet getReservationByID(int id) throws SQLException {
         String query = "SELECT * FROM reservations WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
@@ -96,33 +90,40 @@ public class ReservationDAO {
 
         if (value instanceof String) {
             ps.setString(1, (String) value);
-        } else{
+        } else {
             ps.setInt(1, (int) value);
         }
         return ps.executeQuery();
     }
 
     private boolean tableIsEmpty() throws SQLException {
-        String query = "SELECT count(*) FROM RESERVATIONS";
+        String query = "SELECT count(*) FROM reservations";  // Attento alle maiuscole/minuscole nel nome della tabella
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
+
         if (rs.next()) {
-            return rs.getInt(1) >= 1;
+            int count = rs.getInt(1);
+            System.out.println("Numero di prenotazioni trovate: " + count);  // Debug
+            return count == 0;  // Ritorna true solo se la tabella è DAVVERO VUOTA
         }
-        return false;
+        return true; // Se il ResultSet è vuoto (improbabile), allora assumiamo che sia vuoto
     }
 
-    private boolean checkDisponibility(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException{
-        String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
-        PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
-        ps1.setInt(1, fieldid);
-        ps1.setString(2, clubid);
-        ps1.setTime(3, startrent);
-        ps1.setTime(4, endrent);
-        ResultSet rs1 = ps1.executeQuery();
-        if(rs1.next()){
-            if(rs1.getInt(1) >= 1) {
-                String query2 = "SELECT count(*) FROM reservations r " +
+    private boolean checkDisponibility(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException {
+        System.out.println("Controllo disponibilità per il campo " + fieldid + " nel club " + clubid + " il " + date);
+
+        // Se la tabella è vuota, nessuna prenotazione presente -> il campo è disponibile
+        if (!tableIsEmpty()) {
+            String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
+            PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
+            ps1.setInt(1, fieldid);
+            ps1.setString(2, clubid);
+            ps1.setTime(3, startrent);
+            ps1.setTime(4, endrent);
+            ResultSet rs1 = ps1.executeQuery();
+
+            if (rs1.next() && rs1.getInt(1) >= 1) {
+                String query2 = "SELECT COUNT(*) FROM reservations r " +
                         "WHERE r.date = ? " +
                         "AND r.fieldid = ? " +
                         "AND r.clubid = ? " +
@@ -134,16 +135,18 @@ public class ReservationDAO {
                 ps2.setTime(4, endrent);
                 ps2.setTime(5, startrent);
                 ResultSet rs2 = ps2.executeQuery();
+
                 if (rs2.next()) {
-                    if(rs2.getInt(1) >= 1)
-                        return false;
-                    else{
-                        return true;
-                    }
+                    int count = rs2.getInt(1);
+                    System.out.println("Prenotazioni sovrapposte trovate: " + count);
+                    return count == 0; // Se count è 0, significa che non ci sono sovrapposizioni
                 }
             }
             return false;
         }
-        return false;
+
+        System.out.println("Tabella prenotazioni vuota, quindi disponibile.");
+        return true;
     }
+
 }

@@ -217,7 +217,7 @@ public class ReserveField extends StandardView{
 
 
 
-            //TODO controllare disponibilità con altre prenotazioni
+
 
 
 
@@ -232,13 +232,9 @@ public class ReserveField extends StandardView{
 
             if(Engine.getInstance().addReservation(clubId, fieldId, date, startTime, endTime)){
                 JOptionPane.showMessageDialog(this, "Prenotazione avvenuta con successo", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else{
-                JOptionPane.showMessageDialog(this, "Errore durante la registrazione della prenotazione", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-
-            //TODO mettere la logica di creare una prenotazione
 
             pageNavigationController.navigateToUserHome();
         });

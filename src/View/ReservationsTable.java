@@ -67,7 +67,6 @@ public class ReservationsTable extends StandardView {
             scrollPane = new JScrollPane(table);
             table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);
-
         }
 
         return tablePanel;
