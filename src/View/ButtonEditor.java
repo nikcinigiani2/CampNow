@@ -13,18 +13,27 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     private String type;
 
     public ButtonEditor(String type, JTable table, PageNavigation pageNavigation) {
-        button = new JButton(type);
+        this.type = type;
+        button = new JButton(type=="Prenota" ? "Prenota" : "Modifica");
         button.setOpaque(true);
 
         button.addActionListener(e -> {
             fireEditingStopped(); // Ferma l'editing della cella
 
-            int fieldId = (int) table.getValueAt(selectedRow, 0);
+            if(type == "Prenota"){
+                int fieldId = (int) table.getValueAt(selectedRow, 0);
+                String clubId = (String) table.getValueAt(selectedRow, 1);
+                String clubName = (String) table.getValueAt(selectedRow, 2);
+                pageNavigation.navigateToReserveField(fieldId, clubId, clubName); // Cambia finestra
 
-            if(type == "Prenota")
-                pageNavigation.navigateToReserveField(fieldId); // Cambia finestra
-            else
-                pageNavigation.navigateToClubHome();
+            } else if(type == "ModificaC") {
+                int fieldId = (int) table.getValueAt(selectedRow, 0);
+                pageNavigation.navigateToEditField(fieldId);
+            }
+            else if(type == "ModificaP"){
+                int reservationId = (int) table.getValueAt(selectedRow, 0);
+                pageNavigation.navigateToEditReservation(reservationId);
+            }
         });
     }
 
@@ -36,6 +45,11 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 
     @Override
     public Object getCellEditorValue() {
-        return "Prenota"; // Testo del bottone
+        switch (type){
+            case "Prenota":
+                return "Prenota";
+            default:
+                return "Modifica";
+        }
     }
 }

@@ -1,17 +1,20 @@
 package Model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class Reservation {
     private int id;
     private String clubid;
     private int fieldid;
     private String usercf;
-    private String date;
-    private String startrent;
-    private String endrent;
+    private Date date;
+    private Time startrent;
+    private Time endrent;
     private String datetime;
 
 
-    public Reservation(int id, String clubid, int fieldid, String usercf, String date, String startrent, String endrent, String datetime) {
+    public Reservation(int id, String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent, String datetime) {
         this.id = id;
         this.clubid = clubid;
         this.fieldid = fieldid;
@@ -37,19 +40,31 @@ public class Reservation {
         return usercf;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public String getStartrent() {
+    public Time getStartrent() {
         return startrent;
     }
 
-    public String getEndrent() {
+    public Time getEndrent() {
         return endrent;
     }
 
     public String getDatetime() {
         return datetime;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setStartrent(Time startrent) {
+        this.startrent = startrent;
+    }
+
+    public void setEndrent(Time endrent) {
+        this.endrent = endrent;
     }
 }

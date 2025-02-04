@@ -1,11 +1,14 @@
 package Controller;
 
 import BusinessLogic.Service.*;
+import Model.Reservation;
 import Model.User;
 import Model.Club;
 import Model.Field;
+import View.ReserveField;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -66,17 +69,20 @@ public class Engine {
         return registered;
     }
 
+    public String getNameByCF(String cf){
+        UserService us = (UserService) sf.getService(sf.USER_SERVICE);
+        return us.getNameByCF(cf);
+    }
+
+    public String getSurnameByCF(String cf){
+        UserService us = (UserService) sf.getService(sf.USER_SERVICE);
+        return us.getSurnameByCF(cf);
+    }
+
+
     public void userLogout() {
         user=null;
     }
-
-    /*
-    *
-    *
-    * logout
-    *
-     */
-    // -------------------------------------
 
 
     // CLUB FUNCTION -----------------------
@@ -107,7 +113,7 @@ public class Engine {
             registered = true;
         }
         else {
-            System.out.println("Utente già registrato");
+            System.out.println("Club già registrato");
         }
         return registered;
     }
@@ -127,21 +133,60 @@ public class Engine {
         return cs.getAddressById(id);
     }
 
+    public void clubLogout() {
+        club=null;
+    }
+
+    // FIELD FUNCTIONS -----------------------
+
     public ArrayList<Field> getAllFields(){
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
         return fs.getAllFields();
     }
 
-
+    public Field getFieldByID(int fieldId, String clubId){
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        return fs.getFieldById(fieldId, clubId);
+    }
 
     public boolean addField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
-        fs.addField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
-        return true;
+        return fs.addField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
     }
 
-    // -------------------------------------
+    public boolean updateField(int id, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime){
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        return fs.updateField(id, getClub().getId(), number, soil, lights, lockerroom, price, startTime, endTime);
+    }
 
+    public boolean deleteField(int id){
+        FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
+        return fs.deleteField(id, getClub().getId());
+    }
+
+
+    // RESERVATION FUNCTIONS -----------------------
+
+
+    public boolean addReservation(String clubid, int fieldid, Date date, Time startTime, Time endTime){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.addReservation(clubid, fieldid, getUser().getCf(), date, startTime, endTime);
+    }
+
+    public Reservation getReservationByID(int reservationId){
+        ReservationService rs = (ReservationService)  sf.getService(sf.RESERVATION_SERVICE);
+        return rs.getReservationById(reservationId);
+    }
+
+    public boolean updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.updateReservation(id, clubid, fieldid, date, startRent, endRent);
+    }
+
+    public boolean deleteReservation(int id){
+        ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
+        return rs.deleteReservation(id);
+    }
 
 
 }

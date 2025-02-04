@@ -21,14 +21,6 @@ public class FieldsTable extends StandardView {
     }
 
     @Override
-    protected void setupWindow() {
-        setTitle("CampNow");
-        setSize(900, 500);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -49,12 +41,12 @@ public class FieldsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Number", "Address", "City", "Modifica"};
+        String[] columnNames = {"ID", "Numero", "Terreno", "Luci", "Spogliatoi", "Prezzo", "Orario apertura", "Orario chiusura", "Modifica"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0)
         {
             @Override
             public boolean isCellEditable(int row, int column) {
-            return column==4;
+            return column==8;
         }
         };
         List<Field> fields = Engine.getInstance().getClub().getFields();
@@ -68,8 +60,12 @@ public class FieldsTable extends StandardView {
                 Object[] rowData = {
                         field.getId(),
                         field.getNumber(),
-                        Engine.getInstance().getClub().getAddress(),
-                        Engine.getInstance().getClub().getCity(),
+                        field.getSoil(),
+                        field.getLightsToString(),
+                        field.getLockerroomToString(),
+                        field.getPrice(),
+                        field.getStartTime(),
+                        field.getEndTime(),
                         "Modifica"
                 };
 
@@ -77,8 +73,8 @@ public class FieldsTable extends StandardView {
             }
             table = new JTable(tableModel);
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
-            table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
-            table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("Modifica",table, pageNavigationController));
+            table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer("Modifica"));
+            table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditor("ModificaC",table, pageNavigationController));
 
             scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);
@@ -91,13 +87,10 @@ public class FieldsTable extends StandardView {
 
         JButton addButton = new JButton("Aggiungi un campo");
         addButton.addActionListener(e -> {
-            // Add action to navigate to the add field page
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
             pageNavigationController.navigateToAddField();
         });
-        addButton.setFocusable(false);
 
-        buttonPanel.add(addButton);
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
@@ -106,6 +99,9 @@ public class FieldsTable extends StandardView {
         });
         backButton.setFocusable(false);
         buttonPanel.add(backButton);
+
+        addButton.setFocusable(false);
+        buttonPanel.add(addButton);
 
         return buttonPanel;
     }

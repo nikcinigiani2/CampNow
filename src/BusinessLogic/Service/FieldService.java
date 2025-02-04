@@ -91,6 +91,8 @@ public class FieldService {
         }
     }
 
+
+
     public ResultSet getFieldsOrderbyPrice() {
         try {
             return fieldDAO.getFieldsOrderByPrice();
@@ -102,15 +104,18 @@ public class FieldService {
     public Field getFieldById(int id, String clubid){
         try{
             ResultSet rs = fieldDAO.getFieldById(id, clubid);
-            rs.next();
-            int number = rs.getInt("number");
-            String soil = rs.getString("soil");
-            boolean lights = rs.getBoolean("lights");
-            boolean lockerroom = rs.getBoolean("lockerroom");
-            int price = rs.getInt("price");
-            Time startTime = rs.getTime("startTime");
-            Time endTime = rs.getTime("endTime");
-            Field field = new Field(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
+            if(rs!= null){
+                while (rs.next()) {
+                    int number = rs.getInt("number");
+                    String soil = rs.getString("soil");
+                    boolean lights = rs.getBoolean("lights");
+                    boolean lockerroom = rs.getBoolean("lockerroom");
+                    int price = rs.getInt("price");
+                    Time starttime = rs.getTime("starttime");
+                    Time endtime = rs.getTime("endtime");
+                    field = new Field(id, clubid, number, soil, lights, lockerroom, price, starttime, endtime);
+                }
+            }
             return field;
         }catch(SQLException e){
             System.err.println("Errore durante la lettura del campo: "+e.getMessage());

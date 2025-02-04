@@ -14,7 +14,16 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        setText(type); // Testo del bottone
+         // Testo del bottone
+        switch (type){
+            case "Prenota":
+                setText("Prenota");
+                break;
+            default:
+                setText("Modifica");
+                break;
+        }
         return this;
     }
 }
+

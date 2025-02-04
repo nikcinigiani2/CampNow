@@ -4,6 +4,9 @@ import Controller.Engine;
 import Controller.PageNavigation;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.Time;
 
@@ -34,6 +37,10 @@ public class AddField extends StandardView {
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         JPanel formPanel = createFormPanel();
+        Border margin = new EmptyBorder(0,100,0,100);
+        Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
+
+        formPanel.setBorder(new CompoundBorder(margin, blackBorder));
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = createButtonPanel();
@@ -44,93 +51,83 @@ public class AddField extends StandardView {
 
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        formPanel.setBorder(new EmptyBorder(20, 220, 20, 220));
 
-        JLabel idLabel = new JLabel("ID:");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(2, 15, 2, 15);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.5;
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(idLabel, gbc);
+        formPanel.add(new JLabel("Campo ID:"), gbc);
 
-        idField = new JTextField(20);
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        idField = new JTextField(20);
         formPanel.add(idField, gbc);
 
-        JLabel numberLabel = new JLabel("Number:");
         gbc.gridx = 0;
         gbc.gridy = 1;
-        formPanel.add(numberLabel, gbc);
+        formPanel.add(new JLabel("Numero:"), gbc);
 
-        numberField = new JTextField(20);
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        numberField = new JTextField(20);
         formPanel.add(numberField, gbc);
 
-        JLabel soilLabel = new JLabel("Soil:");
         gbc.gridx = 0;
         gbc.gridy = 2;
-        formPanel.add(soilLabel, gbc);
+        formPanel.add(new JLabel("Tipo terreno:"), gbc);
 
-        soilField = new JTextField(20);
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        soilField = new JTextField(20);
         formPanel.add(soilField, gbc);
 
-        JLabel lightsLabel = new JLabel("Lights:");
         gbc.gridx = 0;
         gbc.gridy = 3;
-        formPanel.add(lightsLabel, gbc);
+        formPanel.add(new JLabel("Luci:"), gbc);
 
-        lightsCheckBox = new JCheckBox();
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        lightsCheckBox = new JCheckBox();
         formPanel.add(lightsCheckBox, gbc);
 
-        JLabel lockerroomLabel = new JLabel("Lockerroom:");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        formPanel.add(lockerroomLabel, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("Spogliatoi:"), gbc);
 
+        gbc.gridx = 3;
         lockerroomCheckBox = new JCheckBox();
-        gbc.gridx = 1;
-        gbc.gridy = 4;
         formPanel.add(lockerroomCheckBox, gbc);
 
-        JLabel priceLabel = new JLabel("Price:");
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        formPanel.add(priceLabel, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        formPanel.add(new JLabel("Prezzo:"), gbc);
 
+        gbc.gridx = 3;
         priceField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 5;
         formPanel.add(priceField, gbc);
 
-        JLabel startTimeLabel = new JLabel("Start Time:");
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        formPanel.add(startTimeLabel, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("Orario apertura (hh:mm):"), gbc);
 
+        gbc.gridx = 3;
         startTimeField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 6;
         formPanel.add(startTimeField, gbc);
 
-        JLabel endTimeLabel = new JLabel("End Time:");
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        formPanel.add(endTimeLabel, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        formPanel.add(new JLabel("Orario chiusura (hh:mm):"), gbc);
 
+        gbc.gridx = 3;
         endTimeField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 7;
         formPanel.add(endTimeField, gbc);
 
         return formPanel;
     }
+
+
+
 
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
@@ -156,11 +153,9 @@ public class AddField extends StandardView {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID, Number, and Price", "Invalid Number Format", JOptionPane.ERROR_MESSAGE);
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM:SS format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
             }
         });
-        confirmButton.setFocusable(false);
-        buttonPanel.add(confirmButton);
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
@@ -168,6 +163,10 @@ public class AddField extends StandardView {
         });
         backButton.setFocusable(false);
         buttonPanel.add(backButton);
+
+        confirmButton.setFocusable(false);
+        buttonPanel.add(confirmButton);
+
 
         return buttonPanel;
     }

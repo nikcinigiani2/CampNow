@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Club {
     private String id;
@@ -35,6 +36,9 @@ public class Club {
         return reservations.size();
     }
 
+    public void loadReservations(ArrayList<Reservation> reservations){
+        this.reservations = reservations;
+    }
     public void addReservation(Reservation reservation){
         reservations.add(reservation);
     }
@@ -47,7 +51,7 @@ public class Club {
         }
     }
 
-    public boolean alreadyReservationLoaded(int reservationID){
+    private boolean alreadyReservationLoaded(int reservationID){
         boolean loaded = false;
         for(Reservation r: reservations){
             if(r.getId() == reservationID) {
@@ -62,9 +66,12 @@ public class Club {
     }
 
     public void removeField(int fieldID){
-        for(Field f: fields){
-            if(f.getId() == fieldID){
-                fields.remove(f);
+        Iterator<Field> iterator = fields.iterator();
+        while (iterator.hasNext()){
+            Field f = iterator.next();
+            if (f.getId() == fieldID){
+                iterator.remove();
+                return;
             }
         }
     }
@@ -101,6 +108,10 @@ public class Club {
         return fields;
     }
 
+    public  ArrayList<Reservation> getReservations(){
+        return reservations;
+    }
+
     public Object getAddress() {
         return address;
     }
@@ -108,4 +119,5 @@ public class Club {
     public Object getCity() {
         return city;
     }
+
 }

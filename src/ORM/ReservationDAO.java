@@ -3,31 +3,40 @@ package ORM;
 
 import Model.Reservation;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 public class ReservationDAO {
-
-    public ResultSet getAllReservations(String cf) throws SQLException{
+    public ResultSet getAllReservationsUser(String cf) throws SQLException {
         String query = "SELECT * FROM reservations WHERE usercf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1, cf);
         return ps.executeQuery();
     }
 
-    public void addReservation(String clubid, int fieldid, String usercf, String date, String startrent, String endrent) throws SQLException{
-        if(checkDisponibility(fieldid, clubid, date, startrent, startrent)){
+    public ResultSet getAllReservationsClub(String clubid) throws SQLException {
+        String query = "SELECT * FROM reservations WHERE clubid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1, clubid);
+        return ps.executeQuery();
+    }
+
+    public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent) throws SQLException {
+        if(checkDisponibility(fieldid, clubid, date, startrent, endrent)){
             String query = "insert into reservations (clubid, fieldid, usercf, date, startrent, endrent) " +
                     "values (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setString(1, clubid);
             ps.setInt(2, fieldid);
             ps.setString(3, usercf);
-            ps.setString(4, date);
-            ps.setString(5, startrent);
-            ps.setString(6, endrent);
+            ps.setDate(4, date);
+            ps.setTime(5, startrent);
+            ps.setTime(6, endrent);
             ps.executeUpdate();
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -40,7 +49,7 @@ public class ReservationDAO {
         return rs.getInt("id");
     }
 
-    public String getDateTimeReservation(int id) throws SQLException{
+    public String getDateTimeReservation(int id) throws SQLException {
         String query = "SELECT datetime FROM reservations WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
@@ -49,7 +58,6 @@ public class ReservationDAO {
         return rs.getString("datetime");
     }
 
-
     public void deleteReservation(int id) throws SQLException {
         String query = "delete from reservations where id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -57,20 +65,19 @@ public class ReservationDAO {
         ps.executeUpdate();
     }
 
-    public void updateReservation(int id, String clubid, int fieldid, String date, String startRent, String endRent) throws SQLException{
-        if(checkDisponibility(fieldid, clubid, date, startRent, endRent)){
+    public void updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent) throws SQLException {
+        if (checkDisponibility(fieldid, clubid, date, startRent, endRent)) {
             String query = "update reservations set date = ?, startrent = ?, endrent = ? where id = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-            ps.setString(1, date);
-            ps.setString(2, startRent);
-            ps.setString(3, endRent);
+            ps.setDate(1, date);
+            ps.setTime(2, startRent);
+            ps.setTime(3, endRent);
             ps.setInt(4, id);
             ps.executeUpdate();
         }
     }
 
-
-    public ResultSet getReservationByID (int id) throws SQLException{
+    public ResultSet getReservationByID(int id) throws SQLException {
         String query = "SELECT * FROM reservations WHERE id = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
@@ -85,42 +92,55 @@ public class ReservationDAO {
 
         if (value instanceof String) {
             ps.setString(1, (String) value);
-        } else{
+        } else {
             ps.setInt(1, (int) value);
         }
         return ps.executeQuery();
     }
 
+    private boolean tableIsEmpty() throws SQLException {
+        String query = "SELECT count(*) FROM reservations";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
 
-    public boolean checkDisponibility(int fieldid, String clubid, String date, String startrent, String endrent) throws SQLException{
-        String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
-        PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
-        ps1.setInt(1, fieldid);
-        ps1.setString(2, clubid);
-        ps1.setString(3, startrent);
-        ps1.setString(4, endrent);
-        ResultSet rs1 = ps1.executeQuery();
-        if(rs1.next()){
-            if(rs1.getInt(1) >= 1) {
-                String query2 = "select count(*) from reservations r where r.date = ? and r.fieldid = ? and r.clubid = ?" +
-                        "and (r.startrent < ? and r.endrent >0 ?)";
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count == 0;
+        }
+        return true;
+    }
+
+    private boolean checkDisponibility(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException {
+        if (!tableIsEmpty()) {
+            String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
+            PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
+            ps1.setInt(1, fieldid);
+            ps1.setString(2, clubid);
+            ps1.setTime(3, startrent);
+            ps1.setTime(4, endrent);
+            ResultSet rs1 = ps1.executeQuery();
+
+            if (rs1.next() && rs1.getInt(1) >= 1) {
+                String query2 = "SELECT COUNT(*) FROM reservations r " +
+                        "WHERE r.date = ? " +
+                        "AND r.fieldid = ? " +
+                        "AND r.clubid = ? " +
+                        "AND (r.startrent < ? AND r.endrent > ?)";
                 PreparedStatement ps2 = ManagerDAO.getConnection().prepareStatement(query2);
-                ps2.setString(1, date);
+                ps2.setDate(1, date);
                 ps2.setInt(2, fieldid);
                 ps2.setString(3, clubid);
-                ps2.setString(4, endrent);
-                ps2.setString(5, startrent);
+                ps2.setTime(4, endrent);
+                ps2.setTime(5, startrent);
                 ResultSet rs2 = ps2.executeQuery();
+
                 if (rs2.next()) {
-                    if(rs2.getInt(1) >= 1)
-                        return false;
-                    else{
-                        return true;
-                    }
+                    int count = rs2.getInt(1);
+                    return count == 0;
                 }
             }
             return false;
         }
-        return false;
+        return true;
     }
 }

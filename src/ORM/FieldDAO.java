@@ -33,20 +33,18 @@ public class FieldDAO {
     }
 
     public void updateField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) throws SQLException{
-        if(!alreadyFieldLoaded(id, clubid)) {
-            String query = "UPDATE fields SET number = ?, soil = ?, lights = ?, lockerroom = ?, price = ?, starttime = ?, endtime = ? WHERE id = ? AND clubid = ?";
-            PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-            ps.setInt(1, number);
-            ps.setString(2, soil);
-            ps.setBoolean(3, lights);
-            ps.setBoolean(4, lockerroom);
-            ps.setInt(5, price);
-            ps.setTime(6, startTime);
-            ps.setTime(7, endTime);
-            ps.setInt(8, id);
-            ps.setString(9, clubid);
-            ps.executeUpdate();
-        }
+        String query = "UPDATE fields SET number = ?, soil = ?, lights = ?, lockerroom = ?, price = ?, starttime = ?, endtime = ? WHERE id = ? AND clubid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, number);
+        ps.setString(2, soil);
+        ps.setBoolean(3, lights);
+        ps.setBoolean(4, lockerroom);
+        ps.setInt(5, price);
+        ps.setTime(6, startTime);
+        ps.setTime(7, endTime);
+        ps.setInt(8, id);
+        ps.setString(9, clubid);
+        ps.executeUpdate();
     }
 
     public ResultSet getAllFields() throws SQLException{
@@ -60,8 +58,6 @@ public class FieldDAO {
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, id);
         ps.setString(2, clubid);
-        ResultSet rs = ps.executeQuery();
-
         return ps.executeQuery();
     }
 

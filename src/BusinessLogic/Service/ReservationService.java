@@ -1,12 +1,15 @@
 package BusinessLogic.Service;
 
+import Controller.Engine;
 import Model.Club;
 import Model.User;
 import ORM.ReservationDAO;
 import Model.Reservation;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -22,9 +25,20 @@ public class ReservationService {
         this.reservationDAO = reservationDAO;
     }
 
-    public ResultSet getAllReservation(){
+    public ResultSet getAllReservation(Object userType){
         try{
-            ResultSet rs = reservationDAO.getAllReservations(user.getCf());
+            ResultSet rs = null;
+            if(userType instanceof UserService){
+                if(user != null){
+                    rs = reservationDAO.getAllReservationsUser(user.getCf());
+                }
+            }
+            else{
+                if(club != null){
+                    rs = reservationDAO.getAllReservationsClub(club.getId());
+                }
+            }
+
             ArrayList<Reservation> reservations = new ArrayList<>();
             if(rs!= null){
                 while (rs.next()) {
@@ -32,14 +46,17 @@ public class ReservationService {
                     String clubid = rs.getString("clubid");
                     int fieldid = rs.getInt("fieldid");
                     String usercf = rs.getString("usercf");
-                    String date = rs.getString("date");
-                    String startRent = rs.getString("startRent");
-                    String endRent = rs.getString("endRent");
+                    Date date = rs.getDate("date");
+                    Time startRent = rs.getTime("startRent");
+                    Time endRent = rs.getTime("endRent");
                     Reservation reservation = new Reservation(id, clubid, fieldid, usercf,date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
                     reservations.add(reservation);
                 }
 
-                user.loadReservations(reservations);
+                if(userType instanceof UserService)
+                    user.loadReservations(reservations);
+                else
+                    club.loadReservations(reservations);
             }
             return rs;
         }catch(SQLException e){
@@ -54,9 +71,9 @@ public class ReservationService {
             String clubid = rs.getString("clubid");
             int fieldid = rs.getInt("fieldid");
             String usercf = rs.getString("usercf");
-            String date = rs.getString("date");
-            String startRent = rs.getString("startRent");
-            String endRent = rs.getString("endRent");
+            Date date = rs.getDate("date");
+            Time startRent = rs.getTime("startRent");
+            Time endRent = rs.getTime("endRent");
             Reservation reservation = new Reservation(id, clubid, fieldid, usercf,date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
             return reservation;
         } catch (SQLException e) {
@@ -73,22 +90,28 @@ public class ReservationService {
         }
     }
 
-    public boolean addReservation(String clubid, int fieldid, String usercf, String date, String startRent, String endRent){
+    public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startRent, Time endRent){
+        boolean added = false;
         try{
-            reservationDAO.addReservation(clubid, fieldid, usercf, date, startRent, endRent);
-            int id = reservationDAO.getMostRecentReservationId(usercf);
-            reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
+            added = reservationDAO.addReservation(clubid, fieldid, usercf, date, startRent, endRent);
 
-            user.addReservation(reservation);
-            club.addReservation(reservation);
-            return true;
+            if(added){
+                int id = reservationDAO.getMostRecentReservationId(usercf);
+                reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
+                if(user != null)
+                    System.out.println("SONO ENTRATO");
+                    user.addReservation(reservation);
+                if(club != null)
+                    club.addReservation(reservation);
+            }
+            return added;
         }catch(SQLException e){
-            System.err.println("Errore durante l'aggiunta della prenotazione: " +e.getMessage());
-            return false;
+            System.err.println("Errore durante l'aggiunta della prenotazione: " + e.getMessage());
+            return added;
         }
     }
 
-    public boolean updateReservation(int id, String clubid, int fieldid, String date, String startRent, String endRent){
+    public boolean updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent){
         try{
             reservationDAO.updateReservation(id, clubid, fieldid, date, startRent, endRent);
             return true;
@@ -101,8 +124,7 @@ public class ReservationService {
     public boolean deleteReservation(int id){
         try{
             reservationDAO.deleteReservation(id);
-            user.removeResevation(id);
-            club.removeReservation(id);
+            user.removeReservation(id);
             return true;
         }catch(SQLException e){
             System.err.println("Errore durante la rimozione della prenotazione: " +e.getMessage());

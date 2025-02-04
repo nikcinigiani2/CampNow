@@ -126,13 +126,13 @@ public class PageNavigation {
         currentFrame = ft;
     }
 
-    public void navigateToReservationsTable() {
+    public void navigateToReservationsTable(Object userType) {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        ReservationsTable rt = new ReservationsTable();
+        ReservationsTable rt = new ReservationsTable(userType);
         rt.setSize(frameSize);
         rt.setLocation(frameLocation);
         currentFrame = rt;
@@ -150,13 +150,37 @@ public class PageNavigation {
         currentFrame = sf;
     }
 
-    public void navigateToReserveField(int fieldId) {
+    public void navigateToReserveField(int fieldId, String clubId, String clubName) {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        ReserveField rf = new ReserveField(fieldId);
+        ReserveField rf = new ReserveField(fieldId, clubId, clubName);
+        rf.setSize(frameSize);
+        rf.setLocation(frameLocation);
+        currentFrame = rf;
+    }
+
+    public void navigateToEditReservation(int reservationId){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        EditReservation rf = new EditReservation(reservationId);
+        rf.setSize(frameSize);
+        rf.setLocation(frameLocation);
+        currentFrame = rf;
+    }
+
+    public void navigateToEditField(int fieldId){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        EditField rf = new EditField(fieldId);
         rf.setSize(frameSize);
         rf.setLocation(frameLocation);
         currentFrame = rf;

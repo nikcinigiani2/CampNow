@@ -19,14 +19,6 @@ public class LoginClub extends StandardView {
     }
 
     @Override
-    protected void setupWindow() {
-        setTitle("Login as Club");
-        setSize(900, 800);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
