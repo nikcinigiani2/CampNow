@@ -174,6 +174,18 @@ public class PageNavigation {
         currentFrame = rf;
     }
 
+    public void navigateToEditField(int fieldId){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        EditField rf = new EditField(fieldId);
+        rf.setSize(frameSize);
+        rf.setLocation(frameLocation);
+        currentFrame = rf;
+    }
+
     /*
     public void navigateToFieldDetails() {
         frameSize = currentFrame.getSize();

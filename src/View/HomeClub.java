@@ -35,7 +35,7 @@ public class HomeClub extends StandardView{
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
-            Engine.getInstance().userLogout();
+            Engine.getInstance().clubLogout();
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
             pageNavigationController.navigateToLoginAs();
         });

@@ -51,10 +51,10 @@ public class AddField extends StandardView {
 
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(new EmptyBorder(20, 220, 20, 220)); // Maggiore margine ai lati (Top, Left, Bottom, Right)
+        formPanel.setBorder(new EmptyBorder(20, 220, 20, 220));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(2, 15, 2, 15); // Quasi nessuno spazio tra Label e TextField
+        gbc.insets = new Insets(2, 15, 2, 15);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.5;
@@ -153,7 +153,7 @@ public class AddField extends StandardView {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID, Number, and Price", "Invalid Number Format", JOptionPane.ERROR_MESSAGE);
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM:SS format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter valid time in HH:MM format", "Invalid Time Format", JOptionPane.ERROR_MESSAGE);
             }
         });
 

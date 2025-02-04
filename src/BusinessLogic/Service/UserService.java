@@ -32,9 +32,26 @@ public class UserService {
         user = userDAO.selectUserByCF(cf);
 
         reservationService.setUser(user);
-        reservationService.getAllReservation();
+        reservationService.getAllReservation(this);
     }
 
+    public String getNameByCF(String cf){
+        try{
+            String name = userDAO.getNameByCF(cf);
+            return name;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getSurnameByCF(String cf){
+        try{
+            String surname = userDAO.getSurnameByCF(cf);
+            return surname;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 
     public User getCurrentUser(){
         return user;

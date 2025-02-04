@@ -41,12 +41,12 @@ public class FieldsTable extends StandardView {
     private JPanel createTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
 
-        String[] columnNames = {"ID", "Number", "Address", "City", "Modifica"};
+        String[] columnNames = {"ID", "Numero", "Terreno", "Luci", "Spogliatoi", "Prezzo", "Orario apertura", "Orario chiusura", "Modifica"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0)
         {
             @Override
             public boolean isCellEditable(int row, int column) {
-            return column==4;
+            return column==8;
         }
         };
         List<Field> fields = Engine.getInstance().getClub().getFields();
@@ -60,8 +60,12 @@ public class FieldsTable extends StandardView {
                 Object[] rowData = {
                         field.getId(),
                         field.getNumber(),
-                        Engine.getInstance().getClub().getAddress(),
-                        Engine.getInstance().getClub().getCity(),
+                        field.getSoil(),
+                        field.getLightsToString(),
+                        field.getLockerroomToString(),
+                        field.getPrice(),
+                        field.getStartTime(),
+                        field.getEndTime(),
                         "Modifica"
                 };
 
@@ -69,8 +73,8 @@ public class FieldsTable extends StandardView {
             }
             table = new JTable(tableModel);
             PageNavigation pageNavigationController = PageNavigation.getInstance(this);
-            table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Modifica"));
-            table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor("ModificaC",table, pageNavigationController));
+            table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer("Modifica"));
+            table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditor("ModificaC",table, pageNavigationController));
 
             scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);

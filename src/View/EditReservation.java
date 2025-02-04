@@ -64,7 +64,7 @@ public class EditReservation extends StandardView{
         Field f = Engine.getInstance().getFieldByID(r.getFieldId(), r.getClubid());
 
         JLabel date = new JLabel("Data (yyyy:mm:dd):");
-        dateField = new JTextField(20);
+        dateField = new JTextField(String.valueOf(r.getDate()));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -77,8 +77,9 @@ public class EditReservation extends StandardView{
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
-        gbc.insets = new Insets(50, 50, 0, 50); // Aggiunge margini coerenti
+        gbc.insets = new Insets(50, 50, 0, 50);
         detailPanel.add(dateField, gbc);
+
 
         JLabel startLabel = new JLabel("Ora di Inizio:");
         JLabel endLabel = new JLabel("Ora di Fine:");
@@ -86,7 +87,7 @@ public class EditReservation extends StandardView{
         endTimeComboBox = new JComboBox<>(generateTimeSlots(f.getStartTime(), f.getEndTime()));
 
         gbc.gridx = 0;
-        gbc.gridy = 1; // Dopo la nuova label
+        gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
         startLabel.setBorder(new EmptyBorder(0, 50, 0, 50));
@@ -94,7 +95,7 @@ public class EditReservation extends StandardView{
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;  // Assicura che la JComboBox sia visibile
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
         startTimeComboBox.setBorder(new EmptyBorder(0, 50, 0, 50));
         detailPanel.add(startTimeComboBox, gbc);
@@ -126,35 +127,48 @@ public class EditReservation extends StandardView{
             pageNavigationController.navigateToReservationsTable(Engine.getInstance().getUser());
         });
 
-        reserveButton.addActionListener(e ->{
+        reserveButton.addActionListener(e -> {
             String selectedStartTime = (String) startTimeComboBox.getSelectedItem();
             String selectedEndTime = (String) endTimeComboBox.getSelectedItem();
             String selectedDate = dateField.getText();
 
-            Time startTime =  Time.valueOf(selectedStartTime + ":00");
-            Time endTime =  Time.valueOf(selectedEndTime + ":00");
-
-            Date date;
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                date = new Date(dateFormat.parse(selectedDate).getTime());
-            } catch (ParseException e1) {
-                JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-mm-dd", "Error", JOptionPane.ERROR_MESSAGE);
+            if (selectedStartTime == null || selectedEndTime == null) {
+                JOptionPane.showMessageDialog(this, "Errore: Seleziona un orario valido", "Errore", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if(endTime.before(startTime) || startTime.equals(endTime)) {
-                JOptionPane.showMessageDialog(this, "Inserire correttamente gli orari", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                if (Engine.getInstance().updateReservation(reservationId, Engine.getInstance().getReservationByID(reservationId).getClubid(), Engine.getInstance().getReservationByID(reservationId).getFieldId(), date, startTime, endTime)) {
-                    saveChanges(date, startTime, endTime);
-                    JOptionPane.showMessageDialog(this, "Modifica avvenuta con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari!", "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                Time startTime = Time.valueOf(selectedStartTime + ":00");
+                Time endTime = Time.valueOf(selectedEndTime + ":00");
+
+                Date date;
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    date = new Date(dateFormat.parse(selectedDate).getTime());
+                } catch (ParseException e1) {
+                    JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-mm-dd", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+
+                if (endTime.before(startTime) || startTime.equals(endTime)) {
+                    JOptionPane.showMessageDialog(this, "Inserire correttamente gli orari", "Errore", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (Engine.getInstance().updateReservation(
+                            reservationId,
+                            Engine.getInstance().getReservationByID(reservationId).getClubid(),
+                            Engine.getInstance().getReservationByID(reservationId).getFieldId(),
+                            date, startTime, endTime
+                    )) {
+                        saveChanges(date, startTime, endTime);
+                        JOptionPane.showMessageDialog(this, "Modifica avvenuta con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari!", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                pageNavigationController.navigateToUserHome();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Errore: formato orario non valido", "Errore", JOptionPane.ERROR_MESSAGE);
             }
-            pageNavigationController.navigateToUserHome();
         });
 
         deleteButton.addActionListener(e->{
@@ -193,6 +207,11 @@ public class EditReservation extends StandardView{
     private String[] generateTimeSlots(Time startTime, Time endTime) {
         ArrayList<String> timeSlots = new ArrayList<>();
 
+        if (startTime == null || endTime == null) {
+            System.err.println("Errore: startTime o endTime sono null");
+            return new String[0]; // Ritorna array vuoto per evitare errori
+        }
+
         long startMillis = startTime.getTime();
         long endMillis = endTime.getTime();
         long halfHourMillis = 30 * 60 * 1000;
@@ -203,6 +222,11 @@ public class EditReservation extends StandardView{
             currentMillis += halfHourMillis;
         }
 
+        if (timeSlots.isEmpty()) {
+            System.err.println("Errore: Nessuno slot orario generato");
+        }
+
         return timeSlots.toArray(new String[0]);
     }
+
 }

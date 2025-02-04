@@ -83,6 +83,30 @@ public class UserDAO {
         return rs;
     }
 
+    public String getNameByCF(String cf) throws SQLException{
+        String query = "SELECT name FROM users WHERE cf = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,cf);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("name");
+        }
+        return "null";
+    }
+
+    public String getSurnameByCF(String cf) throws SQLException{
+        String query = "SELECT surname FROM users WHERE cf = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,cf);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("surname");
+        }
+        return "null";
+    }
+
+
+
     public boolean cfAlreadyUsed(String cf) throws SQLException {
         String query="SELECT COUNT(*) FROM users WHERE cf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);

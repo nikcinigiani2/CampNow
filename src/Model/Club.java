@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Club {
     private String id;
@@ -38,12 +39,8 @@ public class Club {
     public void loadReservations(ArrayList<Reservation> reservations){
         this.reservations = reservations;
     }
-    public boolean addReservation(Reservation reservation){
-        if(alreadyReservationLoaded(reservation.getId())){
-            reservations.add(reservation);
-            return true;
-        }
-        return false;
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
     }
 
     public void removeReservation(int reservationID){
@@ -69,9 +66,12 @@ public class Club {
     }
 
     public void removeField(int fieldID){
-        for(Field f: fields){
-            if(f.getId() == fieldID){
-                fields.remove(f);
+        Iterator<Field> iterator = fields.iterator();
+        while (iterator.hasNext()){
+            Field f = iterator.next();
+            if (f.getId() == fieldID){
+                iterator.remove();
+                return;
             }
         }
     }

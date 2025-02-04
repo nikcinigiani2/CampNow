@@ -3,6 +3,7 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Field;
+import Model.Reservation;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -174,7 +175,7 @@ public class ReserveField extends StandardView{
         endTimeComboBox.setBorder(new EmptyBorder(0, 50, 0, 50));
         detailPanel.add(endTimeComboBox, gbc);
 
-        JLabel date = new JLabel("Data (yyyy:mm:dd):");
+        JLabel date = new JLabel("Data (yyyy-mm-dd):");
         dateField = new JTextField(20);
 
         gbc.gridx = 0;
@@ -186,10 +187,10 @@ public class ReserveField extends StandardView{
 
         gbc.gridx = 1;
         gbc.gridy = 6;
-        gbc.fill = GridBagConstraints.HORIZONTAL;  // Stesso comportamento del JComboBox
-        gbc.weightx = 1; // Permette il ridimensionamento corretto
-        gbc.insets = new Insets(5, 50, 5, 50); // Aggiunge margini coerenti
-        dateField.setPreferredSize(new Dimension(150, 25)); // Imposta una dimensione simile alla JComboBox
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1;
+        gbc.insets = new Insets(5, 50, 5, 50);
+        dateField.setPreferredSize(new Dimension(150, 25));
         detailPanel.add(dateField, gbc);
 
         return detailPanel;
@@ -226,6 +227,8 @@ public class ReserveField extends StandardView{
                 JOptionPane.showMessageDialog(this, "Inserire correttamente gli orari!", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
                 if(Engine.getInstance().addReservation(clubId, fieldId, date, startTime, endTime)){
+                    ArrayList<Reservation> reservations = Engine.getInstance().getUser().getReservations();
+                    Engine.getInstance().getUser().loadReservations(reservations);
                     JOptionPane.showMessageDialog(this, "Prenotazione avvenuta con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(this, "Campo già prenotato in questi orari!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -242,6 +245,7 @@ public class ReserveField extends StandardView{
 
         return buttonPanel;
     }
+
 
     private String[] generateTimeSlots(Time startTime, Time endTime) {
         ArrayList<String> timeSlots = new ArrayList<>();

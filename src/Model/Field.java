@@ -57,4 +57,47 @@ public class Field {
     public Time getEndTime() {
         return endTime;
     }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setSoil(String soil) {
+        this.soil = soil;
+    }
+
+    public void setLights(boolean lights) {
+        this.lights = lights;
+    }
+
+    public void setLockerroom(boolean lockerroom) {
+        this.lockerroom = lockerroom;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getLightsToString(){
+        if(lights)
+            return "Si";
+        else
+            return "No";
+    }
+
+    public String getLockerroomToString(){
+        if(lockerroom)
+            return "Si";
+        else
+            return "No";
+    }
+
 }

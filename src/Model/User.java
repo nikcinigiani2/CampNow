@@ -34,12 +34,8 @@ public class User {
         this.reservations = reservations;
     }
 
-    public boolean addReservation(Reservation reservation){
-        if(alreadyReservationLoaded(reservation.getId())){
-            reservations.add(reservation);
-            return true;
-        }
-        return false;
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
     }
 
     public void removeReservation(int reservationID) {

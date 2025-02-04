@@ -1,5 +1,6 @@
 package BusinessLogic.Service;
 
+import Controller.Engine;
 import Model.Club;
 import Model.User;
 import ORM.ReservationDAO;
@@ -24,11 +25,20 @@ public class ReservationService {
         this.reservationDAO = reservationDAO;
     }
 
-    //TODO fai query per il club
-
-    public ResultSet getAllReservation(){
+    public ResultSet getAllReservation(Object userType){
         try{
-            ResultSet rs = reservationDAO.getAllReservations(user.getCf());
+            ResultSet rs = null;
+            if(userType instanceof UserService){
+                if(user != null){
+                    rs = reservationDAO.getAllReservationsUser(user.getCf());
+                }
+            }
+            else{
+                if(club != null){
+                    rs = reservationDAO.getAllReservationsClub(club.getId());
+                }
+            }
+
             ArrayList<Reservation> reservations = new ArrayList<>();
             if(rs!= null){
                 while (rs.next()) {
@@ -43,8 +53,10 @@ public class ReservationService {
                     reservations.add(reservation);
                 }
 
-                user.loadReservations(reservations);
-                club.loadReservations(reservations);
+                if(userType instanceof UserService)
+                    user.loadReservations(reservations);
+                else
+                    club.loadReservations(reservations);
             }
             return rs;
         }catch(SQLException e){
@@ -86,8 +98,11 @@ public class ReservationService {
             if(added){
                 int id = reservationDAO.getMostRecentReservationId(usercf);
                 reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
-                user.addReservation(reservation);
-                club.addReservation(reservation);
+                if(user != null)
+                    System.out.println("SONO ENTRATO");
+                    user.addReservation(reservation);
+                if(club != null)
+                    club.addReservation(reservation);
             }
             return added;
         }catch(SQLException e){
@@ -110,7 +125,6 @@ public class ReservationService {
         try{
             reservationDAO.deleteReservation(id);
             user.removeReservation(id);
-            club.removeReservation(id);
             return true;
         }catch(SQLException e){
             System.err.println("Errore durante la rimozione della prenotazione: " +e.getMessage());

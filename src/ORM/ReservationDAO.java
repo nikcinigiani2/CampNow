@@ -7,10 +7,17 @@ import java.sql.*;
 
 
 public class ReservationDAO {
-    public ResultSet getAllReservations(String cf) throws SQLException {
+    public ResultSet getAllReservationsUser(String cf) throws SQLException {
         String query = "SELECT * FROM reservations WHERE usercf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1, cf);
+        return ps.executeQuery();
+    }
+
+    public ResultSet getAllReservationsClub(String clubid) throws SQLException {
+        String query = "SELECT * FROM reservations WHERE clubid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1, clubid);
         return ps.executeQuery();
     }
 
@@ -69,7 +76,6 @@ public class ReservationDAO {
             ps.executeUpdate();
         }
     }
-
 
     public ResultSet getReservationByID(int id) throws SQLException {
         String query = "SELECT * FROM reservations WHERE id = ?";

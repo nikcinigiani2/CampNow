@@ -27,7 +27,8 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
                 pageNavigation.navigateToReserveField(fieldId, clubId, clubName); // Cambia finestra
 
             } else if(type == "ModificaC") {
-                pageNavigation.navigateToClubHome();
+                int fieldId = (int) table.getValueAt(selectedRow, 0);
+                pageNavigation.navigateToEditField(fieldId);
             }
             else if(type == "ModificaP"){
                 int reservationId = (int) table.getValueAt(selectedRow, 0);

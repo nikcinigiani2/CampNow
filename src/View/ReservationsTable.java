@@ -95,9 +95,8 @@ public class ReservationsTable extends StandardView {
                     Object[] rowData = {
                             reservation.getId(),
                             reservation.getUsercf(),
-                            "ciao", "ciao",
-                            //Engine.getInstance().getNameById(reservation.getUserCf()),   Nome user
-                            //Engine.getInstance().getSurameById(reservation.getUserCf()),   Cognome user
+                            Engine.getInstance().getNameByCF(reservation.getUsercf()),
+                            Engine.getInstance().getSurnameByCF(reservation.getUsercf()),
                             reservation.getFieldId(),
                             reservation.getDate(),
                             reservation.getStartrent(),
@@ -113,10 +112,12 @@ public class ReservationsTable extends StandardView {
             if(userType instanceof User){
                 table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer("Modifica"));
                 table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor("ModificaP",table, pageNavigationController));
+                table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
+            }else
+                table.getColumnModel().getColumn(8).setPreferredWidth(200);scrollPane = new JScrollPane(table);
 
-            }
 
-            table.getColumnModel().getColumn(6).setPreferredWidth(200);scrollPane = new JScrollPane(table);
+
             scrollPane = new JScrollPane(table);
             tablePanel.add(scrollPane, BorderLayout.CENTER);
         }
