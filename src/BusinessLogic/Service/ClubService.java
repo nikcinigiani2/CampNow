@@ -73,7 +73,6 @@ public class ClubService {
     }
 
 
-
     public void register(String id, String name, String city, String address, int phoneNumber, String email, String psw){
         try{
             clubDAO.addClub(id, name, city, address, phoneNumber, email, psw);

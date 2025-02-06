@@ -1,8 +1,6 @@
 package ORM;
 
 
-import Model.Reservation;
-
 import java.sql.*;
 
 
@@ -22,7 +20,7 @@ public class ReservationDAO {
     }
 
     public boolean addReservation(String clubid, int fieldid, String usercf, Date date, Time startrent, Time endrent) throws SQLException {
-        if(checkDisponibility(fieldid, clubid, date, startrent, endrent)){
+        if(checkAvailability(fieldid, clubid, date, startrent, endrent)){
             String query = "insert into reservations (clubid, fieldid, usercf, date, startrent, endrent) " +
                     "values (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
@@ -66,7 +64,7 @@ public class ReservationDAO {
     }
 
     public void updateReservation(int id, String clubid, int fieldid, Date date, Time startRent, Time endRent) throws SQLException {
-        if (checkDisponibility(fieldid, clubid, date, startRent, endRent)) {
+        if (checkAvailability(fieldid, clubid, date, startRent, endRent)) {
             String query = "update reservations set date = ?, startrent = ?, endrent = ? where id = ?";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setDate(1, date);
@@ -110,7 +108,7 @@ public class ReservationDAO {
         return true;
     }
 
-    private boolean checkDisponibility(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException {
+    private boolean checkAvailability(int fieldid, String clubid, Date date, Time startrent, Time endrent) throws SQLException {
         if (!tableIsEmpty()) {
             String query1 = "SELECT count(*) FROM fields f WHERE f.id = ? AND f.clubid = ? AND f.starttime <= ? AND f.endtime >= ?";
             PreparedStatement ps1 = ManagerDAO.getConnection().prepareStatement(query1);
