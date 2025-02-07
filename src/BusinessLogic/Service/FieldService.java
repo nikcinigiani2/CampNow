@@ -1,7 +1,6 @@
 package BusinessLogic.Service;
 
 import Model.Club;
-import Model.Reservation;
 import ORM.FieldDAO;
 import Model.Field;
 
@@ -21,7 +20,6 @@ public class FieldService {
         this.fieldDAO = fieldDAO;
     }
 
-
     public boolean addField(int id, String clubid, int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime) {
         try {
             fieldDAO.addField(id, clubid, number, soil, lights, lockerroom, price, startTime, endTime);
@@ -34,7 +32,6 @@ public class FieldService {
             return false;
         }
     }
-
 
     public ArrayList<Field> getAllFields() {
         try{
@@ -91,8 +88,6 @@ public class FieldService {
         }
     }
 
-
-
     public ResultSet getFieldsOrderbyPrice() {
         try {
             return fieldDAO.getFieldsOrderByPrice();
@@ -147,5 +142,4 @@ public class FieldService {
     public void setClub(Club club){
         this.club = club;
     }
-
 }

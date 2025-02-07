@@ -126,9 +126,6 @@ public class AddField extends StandardView {
         return formPanel;
     }
 
-
-
-
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
         PageNavigation pageNavigationController = PageNavigation.getInstance(this);

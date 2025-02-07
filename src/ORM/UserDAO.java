@@ -105,8 +105,6 @@ public class UserDAO {
         return "null";
     }
 
-
-
     public boolean cfAlreadyUsed(String cf) throws SQLException {
         String query="SELECT COUNT(*) FROM users WHERE cf = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);

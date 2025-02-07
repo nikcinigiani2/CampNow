@@ -1,7 +1,5 @@
 package ORM;
 
-import Model.Field;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

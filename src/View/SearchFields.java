@@ -5,7 +5,6 @@ import Controller.PageNavigation;
 import Model.Field;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;

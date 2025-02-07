@@ -54,7 +54,6 @@ public class HomeClub extends StandardView{
         return topPanel;
     }
 
-
     private JPanel createButtonPanel(){
         PageNavigation pageNavigationController = PageNavigation.getInstance(this);
 
@@ -88,5 +87,4 @@ public class HomeClub extends StandardView{
         return buttonPanel;
 
     }
-
 }

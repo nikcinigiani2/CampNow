@@ -1,0 +1,209 @@
+@startuml
+package View {
+
+    abstract class StandardView {
+        + {abstract} JPanel createMainPanel()
+        + void setupWindow()
+        + JToggleButton createButton(String title, ButtonGroup buttonGroup, Runnable action)
+    }
+
+    class SearchFields {
+        - JTable table
+        - JScrollPane scrollPane
+        + SearchFields()
+        + JPanel createMainPanel()
+        - JPanel createTablePanel()
+        - JPanel createButtonPanel()
+    }
+
+    class ReserveField {
+        - int fieldId
+        - String clubId
+        - String clubName
+        - JComboBox<String> startTimeComboBox
+        - JComboBox<String> endTimeComboBox
+        - JTextField dateField
+        + ReserveField(int fieldId, String clubId, String clubName)
+        + JPanel createMainPanel()
+        - JPanel createNameFieldPanel()
+        - JPanel createDetailPanel()
+        - JPanel createButtonPanel()
+        - String[] generateTimeSlots(Time startTime, Time endTime)
+    }
+
+    class ReservationsTable {
+        - JTable table
+        - JScrollPane scrollPane
+        - Object userType
+        + ReservationsTable(Object userType)
+        + JPanel createMainPanel()
+        - JPanel createTablePanel()
+        - JPanel createButtonPanel()
+    }
+
+    class RegisterUser {
+        - JTextField cfField
+        - JTextField nameField
+        - JTextField surnameField
+        - JTextField phoneNumberField
+        - JTextField birthdateField
+        - JTextField emailField
+        - JTextField passwordField
+        - JTextField validatePasswordField
+        + RegisterUser()
+        + JPanel createMainPanel()
+        - JPanel createAddUserPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class RegisterClub {
+        - JTextField idField
+        - JTextField nameField
+        - JTextField cityField
+        - JTextField addressField
+        - JTextField phoneNumberField
+        - JTextField emailField
+        - JTextField passwordField
+        - JTextField validatePasswordField
+        + RegisterClub()
+        + JPanel createMainPanel()
+        - JPanel createAddClubPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class LoginUser {
+        - JTextField cfField
+        - JPasswordField passwordField
+        + LoginUser()
+        + JPanel createMainPanel()
+        - JPanel createLogClubPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class LoginClub {
+        - JTextField emailField
+        - JPasswordField passwordField
+        + LoginClub()
+        + JPanel createMainPanel()
+        - JPanel createLogClubPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class LoginAs {
+        + LoginAs()
+        + JPanel createMainPanel()
+        - JPanel createClubPanel()
+        - JPanel createUserPanel()
+    }
+
+    class HomeUser {
+        + HomeUser()
+        + JPanel createMainPanel()
+        - JPanel createTopPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class HomeClub {
+        + HomeClub()
+        + JPanel createMainPanel()
+        - JPanel createTopPanel()
+        - JPanel createButtonPanel()
+    }
+
+    class FieldsTable {
+        - JTable table
+        - JScrollPane scrollPane
+        + FieldsTable()
+        + JPanel createMainPanel()
+        - JPanel createTablePanel()
+        - JPanel createButtonPanel()
+    }
+
+    class EditReservation {
+        - int reservationId
+        - JTextField dateField
+        - JComboBox<String> startTimeComboBox
+        - JComboBox<String> endTimeComboBox
+        + EditReservation(int reservationId)
+        + JPanel createMainPanel()
+        - JPanel createDetailPanel()
+        - JPanel createButtonPanel()
+        - void saveChanges(Date date, Time startRent, Time endRent)
+        - String[] generateTimeSlots(Time startTime, Time endTime)
+    }
+
+    class EditField {
+        - int fieldId
+        - String clubId
+        - JTextField numberField
+        - JTextField soilField
+        - JCheckBox lightsCheckBox
+        - JCheckBox lockerroomCheckBox
+        - JTextField priceField
+        - JTextField startTimeField
+        - JTextField endTimeField
+        + EditField(int fieldId)
+        + JPanel createMainPanel()
+        - JPanel createFormPanel()
+        - JPanel createButtonPanel()
+        - void saveChanges(int number, String soil, Boolean lights, Boolean lockerroom, int price, Time startTime, Time endTime)
+    }
+
+    class ButtonRenderer {
+        - String type
+        + ButtonRenderer(String type)
+        + Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    }
+
+    class ButtonEditor {
+        - JButton button
+        - int selectedRow
+        - String type
+        + ButtonEditor(String type, JTable table, PageNavigation pageNavigation)
+        + Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
+        + Object getCellEditorValue()
+    }
+
+    class AddField {
+        - JTextField idField
+        - JTextField numberField
+        - JTextField soilField
+        - JCheckBox lightsCheckBox
+        - JCheckBox lockerroomCheckBox
+        - JTextField priceField
+        - JTextField startTimeField
+        - JTextField endTimeField
+        + AddField()
+        + JPanel createMainPanel()
+        - JPanel createFormPanel()
+        - JPanel createButtonPanel()
+    }
+}
+
+StandardView <|-[hidden]- SearchFields
+StandardView <|-[hidden]- ReserveField
+StandardView <|-[hidden]- ReservationsTable
+StandardView <|-[hidden]- RegisterUser
+StandardView <|-[hidden]- RegisterClub
+StandardView <|-[hidden]- LoginUser
+StandardView <|-[hidden]- LoginClub
+StandardView <|-[hidden]- LoginAs
+StandardView <|-[hidden]- HomeUser
+StandardView <|-[hidden]- HomeClub
+StandardView <|-[hidden]- FieldsTable
+StandardView <|-[hidden]- EditReservation
+StandardView <|-[hidden]- EditField
+StandardView <|-[hidden]- AddField
+
+ReservationsTable -[hidden]- ReserveField
+ReservationsTable -[hidden]- EditField
+LoginUser -[hidden]- RegisterClub
+LoginUser -[hidden]- AddField
+LoginUser -[hidden]- EditReservation
+LoginAs -[hidden]- RegisterUser
+
+ReserveField -[hidden]- ButtonEditor
+AddField -[hidden]- ButtonRenderer
+ButtonEditor -[hidden]- EditField
+ButtonRenderer -[hidden]- EditField
+@enduml

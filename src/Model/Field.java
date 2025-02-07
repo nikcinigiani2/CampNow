@@ -99,5 +99,4 @@ public class Field {
         else
             return "No";
     }
-
 }

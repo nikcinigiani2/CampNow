@@ -29,7 +29,7 @@ public class LoginUser extends StandardView {
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Pannello centrale con il form
-        JPanel contentPanel = createLogClubPanel();
+        JPanel contentPanel = createLogUserPanel();
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         // Pannello dei bottoni in basso
@@ -39,7 +39,7 @@ public class LoginUser extends StandardView {
         return mainPanel;
     }
 
-    private JPanel createLogClubPanel() {
+    private JPanel createLogUserPanel() {
         // Pannello del form principale
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

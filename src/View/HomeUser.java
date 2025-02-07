@@ -55,7 +55,6 @@ public class HomeUser extends StandardView{
         return topPanel;
     }
 
-
     private JPanel createButtonPanel(){
         PageNavigation pageNavigationController = PageNavigation.getInstance(this);
 
@@ -87,5 +86,4 @@ public class HomeUser extends StandardView{
         return buttonPanel;
 
     }
-
 }

@@ -1,6 +1,5 @@
 package BusinessLogic.Service;
 
-import Model.Reservation;
 import ORM.ClubDAO;
 import Model.Club;
 
@@ -72,7 +71,6 @@ public class ClubService {
         }
     }
 
-
     public void register(String id, String name, String city, String address, int phoneNumber, String email, String psw){
         try{
             clubDAO.addClub(id, name, city, address, phoneNumber, email, psw);
@@ -88,6 +86,7 @@ public class ClubService {
             throw new RuntimeException(e);
         }
     }
+
     public boolean checkIdAlreadyUsed(String id) {
         try {
             return clubDAO.idAlreadyUsed(id);

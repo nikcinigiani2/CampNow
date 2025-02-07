@@ -179,7 +179,7 @@ public class EditField extends StandardView{
         return buttonPanel;
     }
 
-    private void saveChanges(int number, String soil, Boolean lights, Boolean lockerroom, int price, Time startTime, Time endTime){
+    private void saveChanges(int number, String soil, boolean lights, boolean lockerroom, int price, Time startTime, Time endTime){
         ArrayList<Field> fields = Engine.getInstance().getClub().getFields();
 
         for(Field field : fields){

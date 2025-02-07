@@ -5,15 +5,12 @@ import Model.Reservation;
 import Model.User;
 import Model.Club;
 import Model.Field;
-import View.ReserveField;
 
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.sql.Time;
-
 
 public class Engine {
     private static Engine instance;
@@ -79,14 +76,11 @@ public class Engine {
         return us.getSurnameByCF(cf);
     }
 
-
     public void userLogout() {
         user=null;
     }
 
-
     // CLUB FUNCTION -----------------------
-
     public boolean loginClub(String email, String password) {
         boolean logged = false;
         try {
@@ -138,7 +132,6 @@ public class Engine {
     }
 
     // FIELD FUNCTIONS -----------------------
-
     public ArrayList<Field> getAllFields(){
         FieldService fs = (FieldService) sf.getService(sf.FIELD_SERVICE);
         return fs.getAllFields();
@@ -164,10 +157,7 @@ public class Engine {
         return fs.deleteField(id, getClub().getId());
     }
 
-
     // RESERVATION FUNCTIONS -----------------------
-
-
     public boolean addReservation(String clubid, int fieldid, Date date, Time startTime, Time endTime){
         ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
         return rs.addReservation(clubid, fieldid, getUser().getCf(), date, startTime, endTime);
@@ -187,7 +177,4 @@ public class Engine {
         ReservationService rs = (ReservationService) sf.getService(sf.RESERVATION_SERVICE);
         return rs.deleteReservation(id);
     }
-
-
 }
-

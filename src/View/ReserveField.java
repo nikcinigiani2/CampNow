@@ -23,7 +23,6 @@ public class ReserveField extends StandardView{
     private JComboBox<String> endTimeComboBox;
     private JTextField dateField;
 
-
     public ReserveField(int fieldId, String clubId, String clubName){
         this.fieldId = fieldId;
         this.clubId = clubId;
@@ -245,7 +244,6 @@ public class ReserveField extends StandardView{
 
         return buttonPanel;
     }
-
 
     private String[] generateTimeSlots(Time startTime, Time endTime) {
         ArrayList<String> timeSlots = new ArrayList<>();

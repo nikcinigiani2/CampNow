@@ -2,18 +2,13 @@ package View;
 
 import Controller.Engine;
 import Controller.PageNavigation;
-import Model.Club;
-import Model.Field;
 import Model.Reservation;
 import Model.User;
 
-import javax.print.attribute.standard.PresentationDirection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReservationsTable extends StandardView {
     private JTable table;

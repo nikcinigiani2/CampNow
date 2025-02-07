@@ -1,8 +1,6 @@
 package ORM;
 
-
 import java.sql.*;
-
 
 public class ReservationDAO {
     public ResultSet getAllReservationsUser(String cf) throws SQLException {

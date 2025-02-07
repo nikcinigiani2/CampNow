@@ -80,8 +80,6 @@ public class Club {
         this.fields = fields;
     }
 
-
-
     public int numberFields(){
         return fields.size();
     }

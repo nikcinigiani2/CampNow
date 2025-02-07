@@ -89,7 +89,6 @@ public class PageNavigation {
         currentFrame = ru;
     }
 
-
     public void navigateToUserHome() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
@@ -186,32 +185,6 @@ public class PageNavigation {
         currentFrame = rf;
     }
 
-    /*
-    public void navigateToFieldDetails() {
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        FieldDetails fd = new FieldDetails();
-        fd.setSize(frameSize);
-        fd.setLocation(frameLocation);
-        currentFrame = fd;
-    }
-
-    public void navigateToFieldEdit() {
-        frameSize = currentFrame.getSize();
-        frameLocation = currentFrame.getLocation();
-
-        currentFrame.dispose();
-
-        FieldEdit fe = new FieldEdit();
-        fe.setSize(frameSize);
-        fe.setLocation(frameLocation);
-        currentFrame = fe;
-
-    }
-    */
     public void navigateToAddField() {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
@@ -223,5 +196,4 @@ public class PageNavigation {
         af.setLocation(frameLocation);
         currentFrame = af;
     }
-
 }
