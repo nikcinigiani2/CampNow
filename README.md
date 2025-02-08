@@ -34,6 +34,6 @@ $ npm install
 $ npm start
 ```
 ## Contatti
--nik.cinigiani@edu.unifi.it
+- **Nik Cinigiani**: nik.cinigiani@edu.unifi.it
 
--riccardo.pacini@edu.unifi.it
+- **Riccardo Pacini**: riccardo.pacini@edu.unifi.it
