@@ -7,11 +7,11 @@ import java.sql.SQLException;
 
 public class ClubService {
 
-    ClubDAO clubDAO;
-    Club club;
+    private ClubDAO clubDAO;
+    private Club club;
 
-    FieldService fieldService;
-    ReservationService reservationService;
+    private FieldService fieldService;
+    private ReservationService reservationService;
 
     public ClubService (ClubDAO clubDAO, FieldService fieldService, ReservationService reservationService){
         this.clubDAO = clubDAO;

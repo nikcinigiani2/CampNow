@@ -7,10 +7,10 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 public class UserService {
-    UserDAO userDAO;
-    User user;
+    private UserDAO userDAO;
+    private User user;
 
-    ReservationService reservationService;
+    private ReservationService reservationService;
 
     public UserService(UserDAO userDAO, ReservationService reservationService){
         this.userDAO = userDAO;
