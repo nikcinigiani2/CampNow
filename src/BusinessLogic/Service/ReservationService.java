@@ -97,7 +97,6 @@ public class ReservationService {
                 int id = reservationDAO.getMostRecentReservationId(usercf);
                 reservation = new Reservation(id, clubid ,fieldid, usercf, date, startRent, endRent, reservationDAO.getDateTimeReservation(id));
                 if(user != null)
-                    System.out.println("SONO ENTRATO");
                     user.addReservation(reservation);
                 if(club != null)
                     club.addReservation(reservation);
